@@ -1,30 +1,23 @@
-// This is a basic Flutter widget test.
-//
-// To perform an interaction with a widget in your test, use the WidgetTester
-// utility in the flutter_test package. For example, you can send tap and scroll
-// gestures. You can also use WidgetTester to find child widgets in the widget
-// tree, read text, and verify that the values of widget properties are correct.
-
+// test/welcome_screen_test.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-
-import 'package:sportsconnect/main.dart';
+import 'package:sportsconnect/main.dart'; // Import your main app file
+// Import the specific screen you want to test
 
 void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
-    await tester.pumpWidget(const MyApp());
+  testWidgets('WelcomeScreen displays title and navigates to login', (WidgetTester tester) async {
+    // Build the app and trigger a frame.
+    await tester.pumpWidget(MyApp());
 
-    // Verify that our counter starts at 0.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
+    // Verify that the Welcome screen is displayed.
+    expect(find.text('Welcome to SportsConnect'), findsOneWidget); // Adjust the text based on your implementation
 
-    // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
-    await tester.pump();
+    // Verify that the login button exists and tap it.
+    expect(find.byType(ElevatedButton), findsOneWidget); // Assuming you have an ElevatedButton for login
+    await tester.tap(find.byType(ElevatedButton));
+    await tester.pumpAndSettle(); // Wait for navigation
 
-    // Verify that our counter has incremented.
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
+    // Verify that the Login screen is displayed.
+    expect(find.text('Login'), findsOneWidget); // Adjust based on your LoginScreen implementation
   });
 }
