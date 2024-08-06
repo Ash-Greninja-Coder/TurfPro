@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:turfpro/colors.dart';
 
 class LoadingWidget extends StatelessWidget {
   final Future<void> Function() backgroundTask;
@@ -12,12 +13,15 @@ class LoadingWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final ThemeData theme = Theme.of(context);
+    final bool isDarkMode = theme.brightness == Brightness.dark;
+
     return FutureBuilder(
       future: backgroundTask(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return Container(
-            color: const Color(0xFFE6FFE6),
+            color: isDarkMode ? AppColors.darkSurface : AppColors.lightSurface,
             child: Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -25,15 +29,15 @@ class LoadingWidget extends StatelessWidget {
                   Icon(
                     Icons.sports_soccer,
                     size: 80,
-                    color: Colors.green.shade900,
+                    color: isDarkMode ? AppColors.darkPrimary : AppColors.lightPrimary,
                   ),
-                  const SizedBox(height: 20), 
-                  Text( 
+                  const SizedBox(height: 20),
+                  Text(
                     'TurfPro',
                     style: TextStyle(
                       fontSize: 30,
                       fontWeight: FontWeight.bold,
-                      color: Colors.green.shade900,
+                      color: isDarkMode ? AppColors.lightOnSurface : AppColors.darkOnSurface,
                     ),
                   ),
                 ],
