@@ -1,123 +1,71 @@
 import 'package:flutter/material.dart';
-import 'package:turfpro/colors.dart';
+import 'package:turfpro/indicator.dart';
+import 'package:turfpro/header.dart'; // Import the HeaderWidget
 
-class SignupScreen extends StatefulWidget {
+class SignupScreen extends StatelessWidget {
   const SignupScreen({super.key});
 
   @override
-  SignupScreenState createState() => SignupScreenState();
-}
-
-class SignupScreenState extends State<SignupScreen> {
-  final _formKey = GlobalKey<FormState>();
-  final emailController = TextEditingController();
-  final usernameController = TextEditingController();
-  final passwordController = TextEditingController();
-
-  @override
-  void dispose() {
-    emailController.dispose();
-    usernameController.dispose();
-    passwordController.dispose();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
-    final ThemeData theme = Theme.of(context);
-    final bool isDarkMode = theme.brightness == Brightness.dark;
-
     return Scaffold(
       appBar: AppBar(
         title: const Text('Sign Up'),
-        backgroundColor: isDarkMode ? AppColors.darkPrimary : AppColors.lightPrimary,
       ),
-      body: Center(
-        child: Form(
-          key: _formKey,
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const SizedBox(height: 20),
-                TextFormField(
-                  controller: emailController,
-                  decoration: InputDecoration(
-                    labelText: 'Email',
-                    labelStyle: TextStyle(
-                      color: isDarkMode ? AppColors.darkOnSurface : AppColors.lightOnSurface,
-                    ),
-                    filled: true,
-                    fillColor: isDarkMode ? AppColors.darkSurface : AppColors.lightSurface,
-                    border: OutlineInputBorder(
-                      borderSide: BorderSide(
-                        color: isDarkMode ? AppColors.darkOutline : AppColors.lightOutline,
-                      ),
-                    ),
-                  ),
-                  style: TextStyle(
-                    color: isDarkMode ? AppColors.darkOnSurface : AppColors.lightOnSurface,
-                  ),
-                ),
-                const SizedBox(height: 16),
-                TextFormField(
-                  controller: usernameController,
-                  decoration: InputDecoration(
-                    labelText: 'Username',
-                    labelStyle: TextStyle(
-                      color: isDarkMode ? AppColors.darkOnSurface : AppColors.lightOnSurface,
-                    ),
-                    filled: true,
-                    fillColor: isDarkMode ? AppColors.darkSurface : AppColors.lightSurface,
-                    border: OutlineInputBorder(
-                      borderSide: BorderSide(
-                        color: isDarkMode ? AppColors.darkOutline : AppColors.lightOutline,
-                      ),
-                    ),
-                  ),
-                  style: TextStyle(
-                    color: isDarkMode ? AppColors.darkOnSurface : AppColors.lightOnSurface,
-                  ),
-                ),
-                const SizedBox(height: 16),
-                TextFormField(
-                  controller: passwordController,
-                  obscureText: true,
-                  decoration: InputDecoration(
-                    labelText: 'Password',
-                    labelStyle: TextStyle(
-                      color: isDarkMode ? AppColors.darkOnSurface : AppColors.lightOnSurface,
-                    ),
-                    filled: true,
-                    fillColor: isDarkMode ? AppColors.darkSurface : AppColors.lightSurface,
-                    border: OutlineInputBorder(
-                      borderSide: BorderSide(
-                        color: isDarkMode ? AppColors.darkOutline : AppColors.lightOutline,
-                      ),
-                    ),
-                  ),
-                  style: TextStyle(
-                    color: isDarkMode ? AppColors.darkOnSurface : AppColors.lightOnSurface,
-                  ),
-                ),
-                const SizedBox(height: 20),
-                ElevatedButton(
-                  onPressed: () {
-                    if (_formKey.currentState!.validate()) {   
-                      Navigator.pop(context);
-                      Navigator.pushNamed(context, '/homepage');
-                    }
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: isDarkMode ? AppColors.darkPrimary : AppColors.lightPrimary, // Corrected parameter
-                    foregroundColor: isDarkMode ? AppColors.darkOnPrimary : AppColors.lightOnPrimary, // Corrected parameter
-                  ),
-                  child: const Text('Sign Up'),
-                ),
-              ],
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            const HeaderWidget(), // Use the HeaderWidget
+            const SizedBox(height: 20),
+            const IndicatorWidget(currentStep: 1, totalSteps: 4),
+            const SizedBox(height: 20),
+            const Text(
+              'First things first!',
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
-          ),
+            const SizedBox(height: 20),
+            const Text(
+              'Verify your phone number with a one-time password (OTP)',
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: 20),
+            const TextField(
+              decoration: InputDecoration(
+                labelText: 'Phone Number',
+                border: OutlineInputBorder(),
+                hintText: 'Enter your phone number',
+              ),
+              keyboardType: TextInputType.phone,
+            ),
+            const SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: () {
+                // Add logic to send OTP
+                Navigator.pushNamed(context, '/sports_preferences');
+              },
+              child: const Text('Get OTP'),
+            ),
+            const SizedBox(height: 20),
+            const Divider(),
+            const SizedBox(height: 20),
+            const TextField(
+              decoration: InputDecoration(
+                labelText: 'OTP',
+                border: OutlineInputBorder(),
+                hintText: 'Enter the OTP sent to your phone',
+              ),
+              keyboardType: TextInputType.number,
+            ),
+            const SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: () {
+                // Add logic to verify OTP
+                Navigator.pushNamed(context, '/sports_preferences');
+              },
+              child: const Text('Verify OTP'),
+            ),
+          ],
         ),
       ),
     );

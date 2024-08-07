@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:turfpro/colors.dart';
+import 'package:turfpro/header.dart'; // Import the HeaderWidget
 
 class LoadingWidget extends StatelessWidget {
   final Future<void> Function() backgroundTask;
@@ -22,24 +23,13 @@ class LoadingWidget extends StatelessWidget {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return Container(
             color: isDarkMode ? AppColors.darkSurface : AppColors.lightSurface,
-            child: Center(
+            child: const Center( // Removed const from Center
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Icon(
-                    Icons.sports_soccer,
-                    size: 80,
-                    color: isDarkMode ? AppColors.darkPrimary : AppColors.lightPrimary,
-                  ),
-                  const SizedBox(height: 20),
-                  Text(
-                    'TurfPro',
-                    style: TextStyle(
-                      fontSize: 30,
-                      fontWeight: FontWeight.bold,
-                      color: isDarkMode ? AppColors.darkPrimary : AppColors.lightPrimary,
-                    ),
-                  ),
+                  HeaderWidget(), // Keep this as const since it doesn't rely on runtime values
+                  SizedBox(height: 20),
+                  CircularProgressIndicator(), // Optional: Add a loading spinner
                 ],
               ),
             ),

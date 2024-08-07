@@ -1,78 +1,47 @@
 import 'package:flutter/material.dart';
+import 'package:turfpro/header.dart'; 
 
-class LoginScreen extends StatefulWidget {
+class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
-
-  @override
-  LoginScreenState createState() => LoginScreenState();
-}
-
-class LoginScreenState extends State<LoginScreen> {
-  final _formKey = GlobalKey<FormState>();
-  final emailController = TextEditingController();
-  final passwordController = TextEditingController();
-
-  @override
-  void dispose() {
-    emailController.dispose();
-    passwordController.dispose();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Login'),
-        backgroundColor:const Color(0xFFE6FFE6),
       ),
-      body: Container(
-        color: const Color(0xFFE6FFE6), // Set the background color to #e6ffe6
-        child: Center(
-          child: Form(
-            key: _formKey,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                TextFormField(
-                  controller: emailController,
-                  decoration: const InputDecoration(labelText: 'Email'),
-                  keyboardType: TextInputType.emailAddress,
-                  validator: (value) {
-                    if (value!.isEmpty) {
-                      return 'Please enter an email';
-                    }
-                    return null;
-                  },
-                ),
-                const SizedBox(height: 20),
-                TextFormField(
-                  controller: passwordController,
-                  decoration: const InputDecoration(labelText: 'Password'),
-                  obscureText: true,
-                  validator: (value) {
-                    if (value!.isEmpty) {
-                      return 'Please enter a password';
-                    }
-                    return null;
-                  },
-                ),
-                const SizedBox(height: 20),
-                ElevatedButton(
-                  onPressed: () {
-                    if (_formKey.currentState!.validate()) {
-                      // Perform login logic with email and password
-                      // ...
-                      Navigator.pop(context);
-                      Navigator.pop(context);
-                      Navigator.pushNamed(context, '/homepage');
-                    }
-                  },
-                  child: const Text('Login'),
-                ),
-              ],
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            const HeaderWidget(), // Use the HeaderWidget
+            const SizedBox(height: 20),
+            // Instructions
+            const Text(
+              'Welcome back! Please log in to continue.',
+              textAlign: TextAlign.center,
             ),
-          ),
+            const SizedBox(height: 20),
+            // Phone Number Text Field
+            const TextField(
+              decoration: InputDecoration(
+                labelText: 'Phone Number',
+                border: OutlineInputBorder(),
+                hintText: 'Enter your phone number',
+              ),
+              keyboardType: TextInputType.phone,
+            ),
+            const SizedBox(height: 20),
+            // Login Button
+            ElevatedButton(
+              onPressed: () {
+                // Add logic for login
+                // For example, you might want to validate the input and navigate to the next screen
+              },
+              child: const Text('Login'),
+            ),
+          ],
         ),
       ),
     );

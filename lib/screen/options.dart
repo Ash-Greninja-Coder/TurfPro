@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:turfpro/colors.dart';
 import 'package:turfpro/screen/login.dart'; 
 import 'package:turfpro/screen/signup.dart';
+import 'package:turfpro/header.dart'; // Import the HeaderWidget
 
 class OptionScreen extends StatefulWidget {
   const OptionScreen({super.key});
@@ -93,20 +94,7 @@ class OptionScreenState extends State<OptionScreen> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(
-            Icons.sports_soccer,
-            size: 30,
-            color: isDarkMode ? AppColors.darkPrimary : AppColors.lightPrimary,
-          ),
-          const SizedBox(height: 10),
-          Text(
-            'TurfPro',
-            style: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-              color: isDarkMode ? AppColors.darkPrimary : AppColors.lightPrimary,
-            ),
-          ),
+          const HeaderWidget(), // Use the HeaderWidget
           const SizedBox(height: 20),
           SizedBox(
             height: 350,
@@ -198,10 +186,10 @@ class OptionScreenState extends State<OptionScreen> {
             style: ElevatedButton.styleFrom(
               foregroundColor: isDarkMode ? AppColors.darkPrimary : AppColors.lightPrimary,
             ),
-            child: const Text(
+            child: Text(
               "I already have an account",
               style: TextStyle(
-                color: Colors.green,
+                color:isDarkMode ? AppColors.darkPrimary : AppColors.lightPrimary,
               ),
             ),
           ),

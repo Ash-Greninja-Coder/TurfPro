@@ -1,36 +1,36 @@
 import 'package:flutter/material.dart';
-import 'package:turfpro/screen/login.dart';
+import 'package:turfpro/screen/notification.dart';
+import 'package:turfpro/screen/pageload.dart';
+import 'package:turfpro/screen/ready.dart';
+import 'package:turfpro/screen/sportspreference.dart';
 import 'package:turfpro/screen/options.dart'; 
-import 'package:turfpro/screen/signup.dart';
-import 'package:turfpro/screen/pageload.dart'; 
 
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  MyApp({super.key});
-
-  final ThemeData lightTheme = ThemeData.light();
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'TurfPro',
       debugShowCheckedModeBanner: false,
-      theme: lightTheme,
-      home: LoadingWidget(
+      theme: ThemeData.light(),
+      home: const LoadingWidget(
         backgroundTask: _loadData,
-        myPage: const OptionScreen(), 
+        myPage: OptionScreen(), 
       ),
       routes: {
-        '/login': (context) => const LoginScreen(),
-        '/signup': (context) => const SignupScreen(),
+        '/sports_preferences': (context) => const SportsPreferencesScreen(),
+        '/notification_preferences': (context) => const NotificationPreferencesScreen(),
+        '/ready': (context) => const ReadyScreen(),
       },
     );
   }
+}
 
-  Future<void> _loadData() async {
-    await Future.delayed(const Duration(seconds: 2));
-  }
+Future<void> _loadData() async {
+  await Future.delayed(const Duration(seconds: 2));
 }
