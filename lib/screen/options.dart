@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:turfpro/colors.dart';
+import 'package:turfpro/screen/login.dart'; 
 import 'package:turfpro/screen/signup.dart';
 
 class OptionScreen extends StatefulWidget {
@@ -69,10 +70,17 @@ class OptionScreenState extends State<OptionScreen> {
     _timer = null;
   }
 
-  void onPressed() {
+  void onSignupPressed() {
     Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => const SignupScreen()),
+    );
+  }
+
+  void onLoginPressed() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const LoginScreen()),
     );
   }
 
@@ -99,8 +107,10 @@ class OptionScreenState extends State<OptionScreen> {
               color: isDarkMode ? AppColors.darkPrimary : AppColors.lightPrimary,
             ),
           ),
+          const SizedBox(height: 20),
           SizedBox(
-            height: 100,
+            height: 350,
+            width: 200,
             child: PageView(
               controller: _pageController,
               onPageChanged: (index) {
@@ -110,18 +120,15 @@ class OptionScreenState extends State<OptionScreen> {
               },
               children: [
                 Image.asset(
-                  'assests/images/TriCircle.png',
-                  width: 100,
+                  'assests/images/TriCircle.png', 
                   fit: BoxFit.cover,
                 ),
                 Image.asset(
                   'assests/images/TriCircle.png',
-                  width: 100,
                   fit: BoxFit.cover,
                 ),
                 Image.asset(
                   'assests/images/TriCircle.png',
-                  width: 100,
                   fit: BoxFit.cover,
                 ),
               ],
@@ -174,27 +181,27 @@ class OptionScreenState extends State<OptionScreen> {
           ),
           const SizedBox(height: 30),
           ElevatedButton(
-            onPressed: onPressed,
+            onPressed: onSignupPressed,
             style: ElevatedButton.styleFrom(
-              backgroundColor: isDarkMode ? AppColors.darkPrimary : AppColors.lightPrimary, // Button background color
+              backgroundColor: isDarkMode ? AppColors.darkPrimary : AppColors.lightPrimary,
             ),
             child: const Text(
               "Let's get started",
               style: TextStyle(
-                color: Colors.white, 
+                color: Colors.white,
               ),
             ),
           ),
-
+          const SizedBox(height: 10),
           ElevatedButton(
-            onPressed: onPressed,
+            onPressed: onLoginPressed, 
             style: ElevatedButton.styleFrom(
-              foregroundColor: isDarkMode ? AppColors.darkPrimary : AppColors.lightPrimary, // Button background color
+              foregroundColor: isDarkMode ? AppColors.darkPrimary : AppColors.lightPrimary,
             ),
             child: const Text(
               "I already have an account",
               style: TextStyle(
-                color: Colors.green, 
+                color: Colors.green,
               ),
             ),
           ),

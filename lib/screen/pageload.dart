@@ -37,7 +37,7 @@ class LoadingWidget extends StatelessWidget {
                     style: TextStyle(
                       fontSize: 30,
                       fontWeight: FontWeight.bold,
-                      color: isDarkMode ? AppColors.lightOnSurface : AppColors.darkOnSurface,
+                      color: isDarkMode ? AppColors.darkPrimary : AppColors.lightPrimary,
                     ),
                   ),
                 ],
