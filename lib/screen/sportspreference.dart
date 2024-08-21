@@ -34,6 +34,7 @@ class SportsPreferencesScreen extends StatelessWidget {
             const SizedBox(height: 20),
             Expanded(
               child: GridView.count(
+                padding: const EdgeInsets.fromLTRB(150, 10, 150, 10),
                 crossAxisCount: 2,
                 childAspectRatio: 1.5,
                 crossAxisSpacing: 10,
@@ -62,7 +63,6 @@ class SportsPreferencesScreen extends StatelessWidget {
                 ),
                 OutlinedButton(
                   onPressed: () {
-                    // Logic for "I'll do this later"
                     Navigator.pop(context); 
                   },
                   child: const Text("I'll do this later"),
@@ -80,18 +80,17 @@ class SportsPreferencesScreen extends StatelessWidget {
       elevation: 4,
       child: InkWell(
         onTap: () {
-          // Logic for selecting the sport
         },
         child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(icon, size: 40),
+              Icon(icon, size: 30),
               const SizedBox(height: 10),
               Text(
                 sportName,
-                style: const TextStyle(fontSize: 16),
+                style: const TextStyle(fontSize: 10),
               ),
             ],
           ),

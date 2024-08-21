@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:turfpro/indicator.dart';
-import 'package:turfpro/header.dart'; // Import the HeaderWidget
-
+import 'package:turfpro/header.dart';
 class SignupScreen extends StatelessWidget {
   const SignupScreen({super.key});
 
@@ -16,7 +15,7 @@ class SignupScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            const HeaderWidget(), // Use the HeaderWidget
+            const HeaderWidget(), 
             const SizedBox(height: 20),
             const IndicatorWidget(currentStep: 1, totalSteps: 4),
             const SizedBox(height: 20),
@@ -41,7 +40,6 @@ class SignupScreen extends StatelessWidget {
             const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
-                // Add logic to send OTP
                 Navigator.pushNamed(context, '/sports_preferences');
               },
               child: const Text('Get OTP'),
@@ -60,7 +58,6 @@ class SignupScreen extends StatelessWidget {
             const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
-                // Add logic to verify OTP
                 Navigator.pushNamed(context, '/sports_preferences');
               },
               child: const Text('Verify OTP'),

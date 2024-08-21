@@ -25,6 +25,10 @@ class NotificationPreferencesScreenState extends State<NotificationPreferencesSc
           children: [
             const IndicatorWidget(currentStep: 3, totalSteps: 4),
             const SizedBox(height: 20),
+            Image.asset(
+              'assests/images/Not.png',
+              fit: BoxFit.cover,
+            ),
             const Text(
               'Would you like to enable notifications?',
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),

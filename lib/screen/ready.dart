@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:turfpro/indicator.dart';
+import 'package:turfpro/screen/home/homescreen.dart';
 
 class ReadyScreen extends StatelessWidget {
   const ReadyScreen({super.key});
@@ -22,6 +23,10 @@ class ReadyScreen extends StatelessWidget {
               style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
               textAlign: TextAlign.center,
             ),
+            Image.asset(
+              'assests/images/Play.png',
+              fit: BoxFit.cover,
+            ),
             const SizedBox(height: 20),
             const Text(
               'Let\'s get started with your first booking.',
@@ -30,7 +35,10 @@ class ReadyScreen extends StatelessWidget {
             const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
-                // Logic to navigate to the booking screen or home
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const HomeScreen()),
+                );
               },
               child: const Text('Start Booking'),
             ),
