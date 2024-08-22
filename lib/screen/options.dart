@@ -66,6 +66,7 @@ class OptionScreenState extends State<OptionScreen> {
       context,
       MaterialPageRoute(builder: (context) => const SignupScreen()),
     );
+    Navigator.pop(context);
   }
 
   void onLoginPressed() {
@@ -73,6 +74,7 @@ class OptionScreenState extends State<OptionScreen> {
       context,
       MaterialPageRoute(builder: (context) => const LoginScreen()),
     );
+    Navigator.pop(context);
   }
 
   @override

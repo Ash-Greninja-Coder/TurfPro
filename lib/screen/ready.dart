@@ -39,6 +39,7 @@ class ReadyScreen extends StatelessWidget {
                   context,
                   MaterialPageRoute(builder: (context) => const HomeScreen()),
                 );
+                Navigator.pop(context);
               },
               child: const Text('Start Booking'),
             ),

@@ -41,6 +41,7 @@ class SignupScreen extends StatelessWidget {
             ElevatedButton(
               onPressed: () {
                 Navigator.pushNamed(context, '/sports_preferences');
+                Navigator.pop(context);
               },
               child: const Text('Get OTP'),
             ),
@@ -59,6 +60,7 @@ class SignupScreen extends StatelessWidget {
             ElevatedButton(
               onPressed: () {
                 Navigator.pushNamed(context, '/sports_preferences');
+                Navigator.pop(context);
               },
               child: const Text('Verify OTP'),
             ),
