@@ -81,7 +81,7 @@ class HomeScreen extends StatelessWidget {
               child: Text('Nearby Turfs', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
             ),
             ListView.builder(
-              shrinkWrap: true, // Prevent overflow
+              shrinkWrap: true,
               scrollDirection: Axis.horizontal,
               itemCount: nearbyTurfs.length,
               itemBuilder: (context, index) {
@@ -94,6 +94,7 @@ class HomeScreen extends StatelessWidget {
                         builder: (context) => TurfDetailScreen(turf: nearbyTurfs[index]),
                       ),
                     );
+                    Navigator.pop(context);
                   },
                 );
               },

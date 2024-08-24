@@ -6,10 +6,10 @@ class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
 
   @override
-  _LoginScreenState createState() => _LoginScreenState();
+  LoginScreenState createState() => LoginScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class LoginScreenState extends State<LoginScreen> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final TextEditingController _phoneController = TextEditingController();
   final TextEditingController _smsController = TextEditingController();
@@ -20,14 +20,9 @@ class _LoginScreenState extends State<LoginScreen> {
       phoneNumber: _phoneController.text,
       verificationCompleted: (PhoneAuthCredential credential) async {
         await _auth.signInWithCredential(credential);
-        // Navigate to options screen after successful verification
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => const OptionScreen()),
-        );
+        Navigator.pushReplacement(context,MaterialPageRoute(builder: (context) => const OptionScreen()));
       },
       verificationFailed: (FirebaseAuthException e) {
-        // Handle error
         print('Verification failed: ${e.message}');
       },
       codeSent: (String verificationId, int? resendToken) {
@@ -51,7 +46,6 @@ class _LoginScreenState extends State<LoginScreen> {
       );
 
       await _auth.signInWithCredential(credential);
-      // Navigate to options screen after successful verification
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => const OptionScreen()),
@@ -87,13 +81,11 @@ class _LoginScreenState extends State<LoginScreen> {
               keyboardType: TextInputType.phone,
             ),
             const SizedBox(height: 20),
-            // Send Verification Code Button
             ElevatedButton(
               onPressed: _verifyPhoneNumber,
               child: const Text('Send Verification Code'),
             ),
             const SizedBox(height: 20),
-            // SMS Code Text Field
             if (_verificationId != null) ...[
               TextField(
                 controller: _smsController,

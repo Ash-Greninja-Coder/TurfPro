@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "183842279219",
+    "project_id": "turfpro-272b7",
+    "storage_bucket": "turfpro-272b7.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:183842279219:android:5a1909bf7dd69b9aeeb846",
+        "android_client_info": {
+          "package_name": "com.example.sportsconnect"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCIDUCY3h0glh-dGSHl-7ZaTulIMvzcHMM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
