@@ -82,8 +82,7 @@ class TurfCard extends StatelessWidget {
                             MaterialPageRoute(
                               builder: (context) => const TurfDetailsScreen(),
                             ),
-                          );                       
-                        },
+                          );                        },
                         child: const Text('More details'),
                       ),
                     ],
