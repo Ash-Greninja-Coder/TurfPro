@@ -1,7 +1,7 @@
 // test/welcome_screen_test.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:turfpro/main.dart'; // Import your main app file
+import 'package:sportsconnect/main.dart'; // Import your main app file
 // Import the specific screen you want to test
 
 void main() {

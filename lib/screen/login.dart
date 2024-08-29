@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:turfpro/screen/options.dart'; // Import the options screen
+import 'package:sportsconnect/screen/options.dart'; // Ensure this file exists
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -19,18 +19,26 @@ class LoginScreenState extends State<LoginScreen> {
     await _auth.verifyPhoneNumber(
       phoneNumber: _phoneController.text,
       verificationCompleted: (PhoneAuthCredential credential) async {
+        // This callback is invoked when the verification code is automatically
+        // retrieved and the user is signed in directly.
         await _auth.signInWithCredential(credential);
-        Navigator.pushReplacement(context,MaterialPageRoute(builder: (context) => const OptionScreen()));
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => const OptionScreen()),
+        );
       },
       verificationFailed: (FirebaseAuthException e) {
+        // Handle verification failure
         print('Verification failed: ${e.message}');
       },
       codeSent: (String verificationId, int? resendToken) {
+        // This callback is invoked when the verification code has been sent
         setState(() {
           _verificationId = verificationId;
         });
       },
       codeAutoRetrievalTimeout: (String verificationId) {
+        // This callback is invoked when the automatic code retrieval times out
         setState(() {
           _verificationId = verificationId;
         });
@@ -45,11 +53,16 @@ class LoginScreenState extends State<LoginScreen> {
         smsCode: _smsController.text,
       );
 
-      await _auth.signInWithCredential(credential);
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => const OptionScreen()),
-      );
+      try {
+        await _auth.signInWithCredential(credential);
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => const OptionScreen()),
+        );
+      } catch (e) {
+        print('Sign in failed: $e');
+        // Handle sign-in error
+      }
     }
   }
 

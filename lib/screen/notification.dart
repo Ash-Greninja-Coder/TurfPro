@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:turfpro/indicator.dart';
+import 'package:sportsconnect/indicator.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class NotificationPreferencesScreen extends StatefulWidget {

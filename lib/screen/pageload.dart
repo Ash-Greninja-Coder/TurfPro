@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:turfpro/colors.dart';
-import 'package:turfpro/header.dart'; 
+import 'package:sportsconnect/colors.dart';
+import 'package:sportsconnect/header.dart'; 
 class LoadingWidget extends StatelessWidget {
   final Future<void> Function() backgroundTask;
   final Widget myPage;

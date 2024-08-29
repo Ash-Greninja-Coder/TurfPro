@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:turfpro/indicator.dart';
-import 'package:turfpro/header.dart';
+import 'package:sportsconnect/indicator.dart';
+import 'package:sportsconnect/header.dart';
 class SignupScreen extends StatelessWidget {
   const SignupScreen({super.key});
 
@@ -60,7 +60,7 @@ class SignupScreen extends StatelessWidget {
             ElevatedButton(
               onPressed: () {
                 Navigator.pushNamed(context, '/sports_preferences');
-                Navigator.pop(context);
+
               },
               child: const Text('Verify OTP'),
             ),

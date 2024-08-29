@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:turfpro/screen/notification.dart';
-import 'package:turfpro/screen/pageload.dart';
-import 'package:turfpro/screen/ready.dart';
-import 'package:turfpro/screen/sportspreference.dart';
-import 'package:turfpro/screen/options.dart'; 
+import 'package:sportsconnect/screen/notification.dart';
+import 'package:sportsconnect/screen/options.dart';
+import 'package:sportsconnect/screen/pageload.dart';
+import 'package:sportsconnect/screen/ready.dart';
+import 'package:sportsconnect/screen/sportspreference.dart';
 
 void main() {
   runApp(const MyApp());

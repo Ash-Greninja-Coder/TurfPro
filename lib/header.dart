@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:turfpro/colors.dart';
+import 'package:sportsconnect/colors.dart';
 
 class HeaderWidget extends StatelessWidget {
   const HeaderWidget({super.key});

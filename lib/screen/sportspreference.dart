@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:turfpro/indicator.dart';
-import 'package:turfpro/header.dart';
+import 'package:sportsconnect/indicator.dart';
+import 'package:sportsconnect/header.dart';
 
 class SportsPreferencesScreen extends StatelessWidget {
   const SportsPreferencesScreen({super.key});
