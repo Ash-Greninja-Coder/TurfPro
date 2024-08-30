@@ -1,3 +1,4 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:sportsconnect/screen/notification.dart';
 import 'package:sportsconnect/screen/options.dart';
@@ -5,7 +6,19 @@ import 'package:sportsconnect/screen/pageload.dart';
 import 'package:sportsconnect/screen/ready.dart';
 import 'package:sportsconnect/screen/sportspreference.dart';
 
-void main() {
+// Ensure you replace these with your actual Firebase options
+const firebaseConfig = FirebaseOptions(
+  apiKey: 'AIzaSyBrCs-B95vpiaeTQfQL3CmJuG9kUd3Zx8M',
+  appId: '1:1062810266491:android:247f670fd4cd2e7045abde',
+  messagingSenderId: '1062810266491',
+  projectId: 'turfpro-77ef7',
+);
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: firebaseConfig,
+  );
   runApp(const MyApp());
 }
 

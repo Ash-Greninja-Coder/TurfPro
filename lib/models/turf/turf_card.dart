@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:sportsconnect/models/turf/turf.dart';
 import 'package:sportsconnect/screen/turf_details/turf_details_screen.dart';
 
 class TurfCard extends StatelessWidget {
-  const TurfCard({super.key});
+  final Turf turf;
+
+  const TurfCard({super.key, required this.turf});
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +19,7 @@ class TurfCard extends StatelessWidget {
             Stack(
               children: [
                 Image.network(
-                  'https://imgs.search.brave.com/EYI5-k0ttSZMbuDVg_DNrxwAfuT9lkRsgAC6yO6JBAQ/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly90NC5m/dGNkbi5uZXQvanBn/LzA3LzE1LzExLzEx/LzM2MF9GXzcxNTEx/MTEwN19rUk1xdXZY/bmgyVU92Yjk1d3BI/bExpcjdkVWhvb3Bj/OC5qcGc',
+                  turf.imageUrl, // Use turf.imageUrl
                   fit: BoxFit.cover,
                   width: double.infinity,
                   height: 115,
@@ -27,32 +30,32 @@ class TurfCard extends StatelessWidget {
                   child: Container(
                     color: Colors.black54,
                     padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                    child: const Text('Upto 10% off', style: TextStyle(color: Colors.white)),
+                    child: Text(
+                      turf.discount, // Use turf.discount
+                      style: const TextStyle(color: Colors.white),
+                    ),
                   ),
                 ),
                 Positioned(
-                    top: 8,
-                    right: 8,
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(12), 
-                      ),
-                      child: const Center(
-                        child: Row(
-                          children: [
-                            Icon(Icons.star),
-                            Text(
-                              '4.2',
-                              style: TextStyle(color: Colors.white),
-                            ),
-
-                          ],
-                        )
-                      ),
+                  top: 8,
+                  right: 8,
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(12),
+                      color: Colors.black54,
+                    ),
+                    child: Row(
+                      children: [
+                        const Icon(Icons.star, color: Colors.white),
+                        Text(
+                          turf.rating.toString(),
+                          style: const TextStyle(color: Colors.white),
+                        ),
+                      ],
                     ),
                   ),
-
+                ),
               ],
             ),
             Padding(
@@ -60,29 +63,33 @@ class TurfCard extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text('AZCO Games Arena', style: TextStyle(fontWeight: FontWeight.bold)),
+                  Text(
+                    turf.name, // Use turf.name
+                    style: const TextStyle(fontWeight: FontWeight.bold),
+                  ),
                   const SizedBox(height: 4),
-                  const Text('Keezhmadam (2km)'),
-                  const Text('7AM - 11PM'),
+                  Text(turf.location), // Use turf.location
+                  Text(turf.openHours), // Use turf.openHours
                   const SizedBox(height: 4),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       ElevatedButton(
                         onPressed: () {},
-                        style: const ButtonStyle(
-                          backgroundColor: WidgetStatePropertyAll<Color>(Colors.green),
+                        style: ButtonStyle(
+                          backgroundColor: WidgetStateProperty.all<Color>(Colors.green),
                         ),
                         child: const Text('Book now'),
                       ),
                       OutlinedButton(
                         onPressed: () {
-                          Navigator.pushReplacement(
-                            context, 
+                          Navigator.push(
+                            context,
                             MaterialPageRoute(
-                              builder: (context) => const TurfDetailsScreen(),
+                              builder: (context) => TurfDetailsScreen(turf: turf),
                             ),
-                          );                        },
+                          );
+                        },
                         child: const Text('More details'),
                       ),
                     ],
@@ -95,4 +102,4 @@ class TurfCard extends StatelessWidget {
       ),
     );
   }
-} 
+}

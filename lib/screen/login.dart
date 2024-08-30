@@ -14,55 +14,95 @@ class LoginScreenState extends State<LoginScreen> {
   final TextEditingController _phoneController = TextEditingController();
   final TextEditingController _smsController = TextEditingController();
   String? _verificationId;
+  bool _isLoading = false;
+  String _errorMessage = '';
 
-  void _verifyPhoneNumber() async {
-    await _auth.verifyPhoneNumber(
-      phoneNumber: _phoneController.text,
-      verificationCompleted: (PhoneAuthCredential credential) async {
-        // This callback is invoked when the verification code is automatically
-        // retrieved and the user is signed in directly.
-        await _auth.signInWithCredential(credential);
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => const OptionScreen()),
-        );
-      },
-      verificationFailed: (FirebaseAuthException e) {
-        // Handle verification failure
-        print('Verification failed: ${e.message}');
-      },
-      codeSent: (String verificationId, int? resendToken) {
-        // This callback is invoked when the verification code has been sent
-        setState(() {
-          _verificationId = verificationId;
-        });
-      },
-      codeAutoRetrievalTimeout: (String verificationId) {
-        // This callback is invoked when the automatic code retrieval times out
-        setState(() {
-          _verificationId = verificationId;
-        });
-      },
-    );
+  @override
+  void dispose() {
+    _phoneController.dispose();
+    _smsController.dispose();
+    super.dispose();
   }
 
+  // Function to send OTP
+  void _sendOtp() async {
+    setState(() {
+      _isLoading = true;
+      _errorMessage = '';
+    });
+
+    try {
+      await _auth.verifyPhoneNumber(
+        phoneNumber: _phoneController.text.trim(),
+        verificationCompleted: (PhoneAuthCredential credential) async {
+          // Automatically sign in the user
+          await _auth.signInWithCredential(credential);
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => const OptionScreen()),
+          );
+        },
+        verificationFailed: (FirebaseAuthException e) {
+          setState(() {
+            _errorMessage = 'Verification failed: ${e.message}';
+            _isLoading = false; // Stop loading on error
+          });
+        },
+        codeSent: (String verificationId, int? resendToken) {
+          setState(() {
+            _verificationId = verificationId;
+            _isLoading = false; // Stop loading after code is sent
+          });
+        },
+        codeAutoRetrievalTimeout: (String verificationId) {
+          setState(() {
+            _verificationId = verificationId;
+            _isLoading = false; // Stop loading after timeout
+          });
+        },
+      );
+    } catch (e) {
+      setState(() {
+        _errorMessage = 'Unexpected error occurred: $e';
+        _isLoading = false; // Stop loading on error
+      });
+    }
+  }
+
+  // Function to verify the OTP
   void _signInWithPhoneNumber() async {
     if (_verificationId != null) {
-      PhoneAuthCredential credential = PhoneAuthProvider.credential(
-        verificationId: _verificationId!,
-        smsCode: _smsController.text,
-      );
+      setState(() {
+        _isLoading = true;
+        _errorMessage = '';
+      });
 
       try {
+        PhoneAuthCredential credential = PhoneAuthProvider.credential(
+          verificationId: _verificationId!,
+          smsCode: _smsController.text.trim(), // Trim whitespace
+        );
+
         await _auth.signInWithCredential(credential);
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (context) => const OptionScreen()),
         );
+      } on FirebaseAuthException catch (e) {
+        setState(() {
+          _errorMessage = 'Sign in failed: ${e.message}';
+          _isLoading = false; // Stop loading on error
+        });
       } catch (e) {
-        print('Sign in failed: $e');
-        // Handle sign-in error
+        setState(() {
+          _errorMessage = 'Unexpected error occurred: $e';
+          _isLoading = false; // Stop loading on error
+        });
       }
+    } else {
+      setState(() {
+        _errorMessage = 'Verification ID is null';
+      });
     }
   }
 
@@ -83,7 +123,6 @@ class LoginScreenState extends State<LoginScreen> {
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: 20),
-            // Phone Number Text Field
             TextField(
               controller: _phoneController,
               decoration: const InputDecoration(
@@ -95,9 +134,19 @@ class LoginScreenState extends State<LoginScreen> {
             ),
             const SizedBox(height: 20),
             ElevatedButton(
-              onPressed: _verifyPhoneNumber,
-              child: const Text('Send Verification Code'),
+              onPressed: _isLoading ? null : _sendOtp,
+              child: _isLoading 
+                ? const CircularProgressIndicator() 
+                : const Text('Send Verification Code'),
             ),
+            if (_errorMessage.isNotEmpty)
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  _errorMessage,
+                  style: const TextStyle(color: Colors.red),
+                ),
+              ),
             const SizedBox(height: 20),
             if (_verificationId != null) ...[
               TextField(
@@ -111,8 +160,10 @@ class LoginScreenState extends State<LoginScreen> {
               ),
               const SizedBox(height: 20),
               ElevatedButton(
-                onPressed: _signInWithPhoneNumber,
-                child: const Text('Verify Code'),
+                onPressed: _isLoading ? null : _signInWithPhoneNumber,
+                child: _isLoading 
+                  ? const CircularProgressIndicator() 
+                  : const Text('Verify Code'),
               ),
             ],
           ],

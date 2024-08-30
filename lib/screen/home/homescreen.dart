@@ -2,12 +2,35 @@ import 'package:flutter/material.dart';
 import 'package:sportsconnect/models/turf/app_bar.dart';
 import 'package:sportsconnect/models/turf/bottom_nav.dart';
 import 'package:sportsconnect/models/turf/turf_card.dart';
+import 'package:sportsconnect/models/turf/turf.dart'; // Import the Turf model
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    // Create example Turf objects
+    final List<Turf> turfs = [
+      Turf(
+        name: 'AZCO Games Arena',
+        imageUrl: 'https://imgs.search.brave.com/EYI5-k0ttSZMbuDVg_DNrxwAfuT9lkRsgAC6yO6JBAQ/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly90NC5m/dGNkbi5uZXQvanBn/LzA3LzE1LzExLzEx/LzM2MF9GXzcxNTEx/MTEwN19rUk1xdXZY/bmgyVU92Yjk1d3BI/bExpcjdkVWhvb3Bj/OC5qcGc',
+        games: 'Football, Basketball',
+        location: 'Keezhmadam (2km)',
+        openHours: '7AM - 11PM',
+        discount: 'Upto 10% off',
+        rating: 4.2,
+      ),
+      Turf(
+        name: 'ABC Turf',
+        imageUrl: 'https://example.com/image.jpg',
+        games: 'Cricket, Tennis',
+        location: 'Downtown (1km)',
+        openHours: '6AM - 10PM',
+        discount: 'Upto 15% off',
+        rating: 4.5,
+      ),
+    ];
+
     return Scaffold(
       appBar: const CustomAppBar(),
       body: Padding(
@@ -50,10 +73,7 @@ class HomeScreen extends StatelessWidget {
             Expanded(
               child: ListView(
                 scrollDirection: Axis.horizontal,
-                children: const [
-                  TurfCard(),
-                  TurfCard(),
-                ],
+                children: turfs.map((turf) => TurfCard(turf: turf)).toList(), // Pass Turf objects
               ),
             ),
             const SizedBox(height: 16),
@@ -65,10 +85,7 @@ class HomeScreen extends StatelessWidget {
             Expanded(
               child: ListView(
                 scrollDirection: Axis.horizontal,
-                children: const [
-                  TurfCard(),
-                  TurfCard(),
-                ],
+                children: turfs.map((turf) => TurfCard(turf: turf)).toList(), // Pass Turf objects
               ),
             ),
           ],

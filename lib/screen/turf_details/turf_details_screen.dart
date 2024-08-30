@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:sportsconnect/models/turf/turf.dart';
+import 'package:sportsconnect/screen/booking/booking_screen.dart';
 import 'app_bar.dart';
 import 'action_buttons.dart';
 import 'ameinties_section.dart';
@@ -7,7 +9,9 @@ import 'reviews_section.dart';
 import 'sports_section.dart';
 
 class TurfDetailsScreen extends StatelessWidget {
-  const TurfDetailsScreen({super.key});
+  final Turf turf; // Define a field to hold the Turf data
+
+  const TurfDetailsScreen({super.key, required this.turf});
 
   @override
   Widget build(BuildContext context) {
@@ -18,43 +22,43 @@ class TurfDetailsScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Image.network(
-              'https://via.placeholder.com/400x200',
+              turf.imageUrl, // Use turf.imageUrl
               fit: BoxFit.cover,
               width: double.infinity,
             ),
-            const Padding(
-              padding: EdgeInsets.all(16.0),
+            Padding(
+              padding: const EdgeInsets.all(16.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'AZCO Games Arena',
-                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                    turf.name, // Use turf.name
+                    style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                   ),
-                  SizedBox(height: 8),
+                  const SizedBox(height: 8),
                   Text(
-                    'Keezhmadam (2km) • 7AM - 11PM • ★ 4.2',
-                    style: TextStyle(color: Colors.grey),
+                    '${turf.location} • ${turf.openHours} • ★ ${turf.rating.toStringAsFixed(1)}',
+                    style: const TextStyle(color: Colors.grey),
                   ),
-                  SizedBox(height: 16),
-                  ActionButtons(),
-                  SizedBox(height: 16),
-                  SportsSection(),
-                  SizedBox(height: 16),
-                  AmenitiesSection(),
-                  SizedBox(height: 16),
-                  OffersSection(),
-                  SizedBox(height: 16),
-                  Text(
+                  const SizedBox(height: 16),
+                  const ActionButtons(),
+                  const SizedBox(height: 16),
+                  const SportsSection(),
+                  const SizedBox(height: 16),
+                  const AmenitiesSection(),
+                  const SizedBox(height: 16),
+                  const OffersSection(),
+                  const SizedBox(height: 16),
+                  const Text(
                     'Description provided by the owner',
                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
                   ),
-                  SizedBox(height: 8),
-                  Text(
+                  const SizedBox(height: 8),
+                  const Text(
                     'Azco - The Games Arena has the below mentioned facilities: ...',
                   ),
-                  SizedBox(height: 16),
-                  ReviewsSection(),
+                  const SizedBox(height: 16),
+                  const ReviewsSection(),
                 ],
               ),
             ),
@@ -68,7 +72,12 @@ class TurfDetailsScreen extends StatelessWidget {
             backgroundColor: Colors.green,
             padding: const EdgeInsets.symmetric(vertical: 16.0),
           ),
-          onPressed: () {},
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const BookingScreen()),
+            );
+          },
           child: const Text('Book now', style: TextStyle(fontSize: 18)),
         ),
       ),
