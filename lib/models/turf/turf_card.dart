@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:sportsconnect/models/turf/turf.dart';
-import 'package:sportsconnect/screen/turf_details/turf_details_screen.dart';
+import 'turf.dart';
+import 'package:sportsconnect/screen/turf_details/turf_details_screen.dart'; // Ensure this import is correct
 
 class TurfCard extends StatelessWidget {
   final Turf turf;
@@ -19,7 +19,7 @@ class TurfCard extends StatelessWidget {
             Stack(
               children: [
                 Image.network(
-                  turf.imageUrl, // Use turf.imageUrl
+                  turf.imageUrl,
                   fit: BoxFit.cover,
                   width: double.infinity,
                   height: 115,
@@ -31,7 +31,7 @@ class TurfCard extends StatelessWidget {
                     color: Colors.black54,
                     padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                     child: Text(
-                      turf.discount, // Use turf.discount
+                      turf.discount,
                       style: const TextStyle(color: Colors.white),
                     ),
                   ),
@@ -64,12 +64,12 @@ class TurfCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    turf.name, // Use turf.name
+                    turf.name,
                     style: const TextStyle(fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(height: 4),
-                  Text(turf.location), // Use turf.location
-                  Text(turf.openHours), // Use turf.openHours
+                  Text(turf.location),
+                  Text(turf.openHours),
                   const SizedBox(height: 4),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -77,7 +77,7 @@ class TurfCard extends StatelessWidget {
                       ElevatedButton(
                         onPressed: () {},
                         style: ButtonStyle(
-                          backgroundColor: WidgetStateProperty.all<Color>(Colors.green),
+                          backgroundColor: MaterialStateProperty.all<Color>(Colors.green),
                         ),
                         child: const Text('Book now'),
                       ),

@@ -9,7 +9,7 @@ import 'reviews_section.dart';
 import 'sports_section.dart';
 
 class TurfDetailsScreen extends StatelessWidget {
-  final Turf turf; // Define a field to hold the Turf data
+  final Turf turf; 
 
   const TurfDetailsScreen({super.key, required this.turf});
 
@@ -22,7 +22,7 @@ class TurfDetailsScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Image.network(
-              turf.imageUrl, // Use turf.imageUrl
+              turf.imageUrl, 
               fit: BoxFit.cover,
               width: double.infinity,
             ),
@@ -32,7 +32,7 @@ class TurfDetailsScreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    turf.name, // Use turf.name
+                    turf.name, 
                     style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(height: 8),

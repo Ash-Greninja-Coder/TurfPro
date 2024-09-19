@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:sportsconnect/screen/options.dart'; // Ensure this file exists
+import 'package:http/http.dart' as http;
+import 'package:sportsconnect/screen/home/homescreen.dart';
+import 'dart:convert';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -10,98 +11,53 @@ class LoginScreen extends StatefulWidget {
 }
 
 class LoginScreenState extends State<LoginScreen> {
-  final FirebaseAuth _auth = FirebaseAuth.instance;
-  final TextEditingController _phoneController = TextEditingController();
-  final TextEditingController _smsController = TextEditingController();
-  String? _verificationId;
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  
   bool _isLoading = false;
   String _errorMessage = '';
 
   @override
   void dispose() {
-    _phoneController.dispose();
-    _smsController.dispose();
+    _emailController.dispose();
+    _passwordController.dispose();
     super.dispose();
   }
 
-  // Function to send OTP
-  void _sendOtp() async {
+  // Function to log in the user
+  void _loginUser() async {
     setState(() {
       _isLoading = true;
       _errorMessage = '';
     });
 
     try {
-      await _auth.verifyPhoneNumber(
-        phoneNumber: _phoneController.text.trim(),
-        verificationCompleted: (PhoneAuthCredential credential) async {
-          // Automatically sign in the user
-          await _auth.signInWithCredential(credential);
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(builder: (context) => const OptionScreen()),
-          );
-        },
-        verificationFailed: (FirebaseAuthException e) {
-          setState(() {
-            _errorMessage = 'Verification failed: ${e.message}';
-            _isLoading = false; // Stop loading on error
-          });
-        },
-        codeSent: (String verificationId, int? resendToken) {
-          setState(() {
-            _verificationId = verificationId;
-            _isLoading = false; // Stop loading after code is sent
-          });
-        },
-        codeAutoRetrievalTimeout: (String verificationId) {
-          setState(() {
-            _verificationId = verificationId;
-            _isLoading = false; // Stop loading after timeout
-          });
-        },
+      final response = await http.post(
+        Uri.parse('http://localhost:3000/api/user/login'), // Update the URL as needed
+        headers: {'Content-Type': 'application/json'},
+        body: json.encode({
+          'email': _emailController.text.trim(),
+          'password': _passwordController.text.trim(),
+        }),
       );
+
+      if (response.statusCode == 200) {
+        // Navigate to the homepage upon successful login and remove all previous routes
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(builder: (context) => const HomeScreen()), // Change to your homepage widget
+          (route) => false, // Remove all previous routes
+        );
+      } else {
+        setState(() {
+          _errorMessage = 'Login failed: ${json.decode(response.body)['message']}';
+          _isLoading = false; // Stop loading on error
+        });
+      }
     } catch (e) {
       setState(() {
         _errorMessage = 'Unexpected error occurred: $e';
         _isLoading = false; // Stop loading on error
-      });
-    }
-  }
-
-  // Function to verify the OTP
-  void _signInWithPhoneNumber() async {
-    if (_verificationId != null) {
-      setState(() {
-        _isLoading = true;
-        _errorMessage = '';
-      });
-
-      try {
-        PhoneAuthCredential credential = PhoneAuthProvider.credential(
-          verificationId: _verificationId!,
-          smsCode: _smsController.text.trim(), // Trim whitespace
-        );
-
-        await _auth.signInWithCredential(credential);
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => const OptionScreen()),
-        );
-      } on FirebaseAuthException catch (e) {
-        setState(() {
-          _errorMessage = 'Sign in failed: ${e.message}';
-          _isLoading = false; // Stop loading on error
-        });
-      } catch (e) {
-        setState(() {
-          _errorMessage = 'Unexpected error occurred: $e';
-          _isLoading = false; // Stop loading on error
-        });
-      }
-    } else {
-      setState(() {
-        _errorMessage = 'Verification ID is null';
       });
     }
   }
@@ -124,20 +80,30 @@ class LoginScreenState extends State<LoginScreen> {
             ),
             const SizedBox(height: 20),
             TextField(
-              controller: _phoneController,
+              controller: _emailController,
               decoration: const InputDecoration(
-                labelText: 'Phone Number',
+                labelText: 'Email',
                 border: OutlineInputBorder(),
-                hintText: 'Enter your phone number',
+                hintText: 'Enter your email',
               ),
-              keyboardType: TextInputType.phone,
+              keyboardType: TextInputType.emailAddress,
+            ),
+            const SizedBox(height: 20),
+            TextField(
+              controller: _passwordController,
+              decoration: const InputDecoration(
+                labelText: 'Password',
+                border: OutlineInputBorder(),
+                hintText: 'Enter your password',
+              ),
+              obscureText: true,
             ),
             const SizedBox(height: 20),
             ElevatedButton(
-              onPressed: _isLoading ? null : _sendOtp,
+              onPressed: _isLoading ? null : _loginUser,
               child: _isLoading 
                 ? const CircularProgressIndicator() 
-                : const Text('Send Verification Code'),
+                : const Text('Login'),
             ),
             if (_errorMessage.isNotEmpty)
               Padding(
@@ -147,25 +113,6 @@ class LoginScreenState extends State<LoginScreen> {
                   style: const TextStyle(color: Colors.red),
                 ),
               ),
-            const SizedBox(height: 20),
-            if (_verificationId != null) ...[
-              TextField(
-                controller: _smsController,
-                decoration: const InputDecoration(
-                  labelText: 'SMS Code',
-                  border: OutlineInputBorder(),
-                  hintText: 'Enter the verification code',
-                ),
-                keyboardType: TextInputType.number,
-              ),
-              const SizedBox(height: 20),
-              ElevatedButton(
-                onPressed: _isLoading ? null : _signInWithPhoneNumber,
-                child: _isLoading 
-                  ? const CircularProgressIndicator() 
-                  : const Text('Verify Code'),
-              ),
-            ],
           ],
         ),
       ),

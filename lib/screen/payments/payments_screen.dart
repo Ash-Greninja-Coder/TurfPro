@@ -1,36 +1,38 @@
 import 'package:flutter/material.dart';
-import '../booking/booking_qr_section.dart';
+import 'package:sportsconnect/screen/booking/booking_summary.dart';
+import 'payments_method.dart';
+import 'success.dart';
 
-class SuccessScreen extends StatelessWidget {
-  const SuccessScreen({super.key});
-
+class PaymentScreen extends StatelessWidget {
+  const PaymentScreen({super.key});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Booking Successful!'),
+        title: const Text('Review'),
         backgroundColor: Colors.green,
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Spacer(),
-            const BookingQRSection(),
+            const BookingSummary(),
+            const SizedBox(height: 16),
+            const PaymentMethodSection(),
             const Spacer(),
             ElevatedButton(
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.green,
                 padding: const EdgeInsets.symmetric(vertical: 16.0),
               ),
-              onPressed: () {},
-              child: const Text('Download QR Code', style: TextStyle(fontSize: 18)),
-            ),
-            const SizedBox(height: 16),
-            TextButton(
-              onPressed: () {},
-              child: const Text('Split your bill'),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const SuccessScreen()),
+                );
+              },
+              child: const Text('Pay', style: TextStyle(fontSize: 18)),
             ),
           ],
         ),

@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import '../../models/turf/turf.dart';
-import '../../models/turf/turf_card.dart';
+import '../../models/turf/turf.dart'; // Adjust path as needed
+import '../../models/turf/turf_card.dart'; // Adjust path as needed
 
 class TurfsScreen extends StatelessWidget {
   final List<Turf> turfs = [
     Turf(
+      id: '1', // Ensure to include ID
       name: 'AZCO Games Arena',
       imageUrl: 'https://via.placeholder.com/200',
       games: 'Football, Cricket',
@@ -14,6 +15,7 @@ class TurfsScreen extends StatelessWidget {
       rating: 4.2,
     ),
     Turf(
+      id: '2', // Ensure to include ID
       name: 'City Sports Complex',
       imageUrl: 'https://via.placeholder.com/200',
       games: 'Badminton, Tennis',
@@ -23,6 +25,7 @@ class TurfsScreen extends StatelessWidget {
       rating: 4.0,
     ),
     Turf(
+      id: '3', // Ensure to include ID
       name: 'Green Turf',
       imageUrl: 'https://via.placeholder.com/200',
       games: 'Cricket',
@@ -37,16 +40,19 @@ class TurfsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GridView.builder(
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 2,
-        childAspectRatio: 0.75,
+    return Scaffold(
+      appBar: AppBar(title: const Text('Turfs')),
+      body: GridView.builder(
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2,
+          childAspectRatio: 0.75,
+        ),
+        itemCount: turfs.length,
+        itemBuilder: (context, index) {
+          var turf = turfs[index];
+          return TurfCard(turf: turf); // Ensure you pass the turf correctly
+        },
       ),
-      itemCount: turfs.length,
-      itemBuilder: (context, index) {
-        var turf = turfs[index];
-        return TurfCard(turf: turf);
-      },
     );
   }
 }

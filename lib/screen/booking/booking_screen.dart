@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
+import '../payments/payments_screen.dart';
 import 'select_sport_section.dart';
 import 'select_time_slot_section.dart';
 import 'select_court_size_section.dart';
-//import '../payments/payments_screen.dart';
+
 
 class BookingScreen extends StatelessWidget {
   const BookingScreen({super.key});
-
+ 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -39,10 +40,10 @@ class BookingScreen extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(vertical: 16.0),
               ),
               onPressed: () {
-                //Navigator.push(
-                  //context,
-                  //MaterialPageRoute(builder: (context) => PaymentScreen()),
-                //);
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => const PaymentScreen()),
+                );
               },
               child: const Text('Continue', style: TextStyle(fontSize: 18)),
             ),

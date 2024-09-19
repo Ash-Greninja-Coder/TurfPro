@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:sportsconnect/models/turf/app_bar.dart';
+import 'package:sportsconnect/models/turf/app_bar.dart';  
 import 'package:sportsconnect/models/turf/bottom_nav.dart';
-import 'package:sportsconnect/models/turf/turf_card.dart';
-import 'package:sportsconnect/models/turf/turf.dart'; // Import the Turf model
+import 'package:sportsconnect/models/turf/turf_card.dart'; 
+import 'package:sportsconnect/models/turf/turf.dart'; 
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -12,6 +12,7 @@ class HomeScreen extends StatelessWidget {
     // Create example Turf objects
     final List<Turf> turfs = [
       Turf(
+        id: '1', // Ensure ID is included
         name: 'AZCO Games Arena',
         imageUrl: 'https://imgs.search.brave.com/EYI5-k0ttSZMbuDVg_DNrxwAfuT9lkRsgAC6yO6JBAQ/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly90NC5m/dGNkbi5uZXQvanBn/LzA3LzE1LzExLzEx/LzM2MF9GXzcxNTEx/MTEwN19rUk1xdXZY/bmgyVU92Yjk1d3BI/bExpcjdkVWhvb3Bj/OC5qcGc',
         games: 'Football, Basketball',
@@ -21,6 +22,7 @@ class HomeScreen extends StatelessWidget {
         rating: 4.2,
       ),
       Turf(
+        id: '2', // Ensure ID is included
         name: 'ABC Turf',
         imageUrl: 'https://example.com/image.jpg',
         games: 'Cricket, Tennis',
@@ -73,7 +75,7 @@ class HomeScreen extends StatelessWidget {
             Expanded(
               child: ListView(
                 scrollDirection: Axis.horizontal,
-                children: turfs.map((turf) => TurfCard(turf: turf)).toList(), // Pass Turf objects
+                children: turfs.map((turf) => TurfCard(turf: turf)).toList(),
               ),
             ),
             const SizedBox(height: 16),
@@ -85,7 +87,7 @@ class HomeScreen extends StatelessWidget {
             Expanded(
               child: ListView(
                 scrollDirection: Axis.horizontal,
-                children: turfs.map((turf) => TurfCard(turf: turf)).toList(), // Pass Turf objects
+                children: turfs.map((turf) => TurfCard(turf: turf)).toList(),
               ),
             ),
           ],
