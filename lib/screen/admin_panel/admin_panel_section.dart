@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sportsconnect/screen/profile_screen.dart';
 import 'payments_screen.dart';
 import 'turfs_screen.dart';
 import 'managers_screen.dart';
@@ -25,11 +26,33 @@ class AdminPanelScreenState extends State<AdminPanelScreen> {
     });
   }
 
+  void _logout() {
+    // Add your logout logic here
+    Navigator.pushReplacementNamed(context, '/login'); // Navigate to login screen
+  }
+
+  void _showProfile() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const ProfileScreen()), // Navigate to ProfileScreen
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Admin Panel'),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.person),
+            onPressed: _showProfile, // Show profile screen on button press
+          ),
+          IconButton(
+            icon: const Icon(Icons.logout),
+            onPressed: _logout, // Logout functionality
+          ),
+        ],
       ),
       body: _screens[_selectedIndex],
       bottomNavigationBar: BottomNavigationBar(

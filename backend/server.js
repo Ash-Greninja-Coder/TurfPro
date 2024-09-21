@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 const adminRoutes = require('./routes/admin');
 const managerRoutes = require('./routes/manager');
 const userRoutes = require('./routes/user');
-require('dotenv').config(); // Load environment variables
+require('dotenv').config(); 
 
 const app = express();
 app.use(express.json());

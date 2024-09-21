@@ -77,7 +77,7 @@ class TurfCard extends StatelessWidget {
                       ElevatedButton(
                         onPressed: () {},
                         style: ButtonStyle(
-                          backgroundColor: MaterialStateProperty.all<Color>(Colors.green),
+                          backgroundColor: WidgetStateProperty.all<Color>(Colors.green),
                         ),
                         child: const Text('Book now'),
                       ),

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:sportsconnect/screen/admin_panel/admin_panel_section.dart';
 import 'package:sportsconnect/screen/home/homescreen.dart';
+import 'package:sportsconnect/screen/manager_panel/manager_panel_screen.dart';
 import 'dart:convert';
 
 class LoginScreen extends StatefulWidget {
@@ -24,7 +26,6 @@ class LoginScreenState extends State<LoginScreen> {
     super.dispose();
   }
 
-  // Function to log in the user
   void _loginUser() async {
     setState(() {
       _isLoading = true;
@@ -33,7 +34,7 @@ class LoginScreenState extends State<LoginScreen> {
 
     try {
       final response = await http.post(
-        Uri.parse('http://localhost:3000/api/user/login'), // Update the URL as needed
+        Uri.parse('http://localhost:3000/api/user/login'), // Update the URL if necessary
         headers: {'Content-Type': 'application/json'},
         body: json.encode({
           'email': _emailController.text.trim(),
@@ -42,22 +43,38 @@ class LoginScreenState extends State<LoginScreen> {
       );
 
       if (response.statusCode == 200) {
-        // Navigate to the homepage upon successful login and remove all previous routes
-        Navigator.pushAndRemoveUntil(
-          context,
-          MaterialPageRoute(builder: (context) => const HomeScreen()), // Change to your homepage widget
-          (route) => false, // Remove all previous routes
-        );
+        final responseData = json.decode(response.body);
+        String accountType = responseData['accountType'];
+
+        if (accountType == 'Admin') {
+          Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(builder: (context) => const AdminPanelScreen()),
+            (route) => false,
+          );
+        } else if (accountType == 'Manager') {
+          Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(builder: (context) => const ManagerPanelScreen()),
+            (route) => false,
+          );
+        } else {
+          Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(builder: (context) => const HomeScreen()),
+            (route) => false,
+          );
+        }
       } else {
         setState(() {
           _errorMessage = 'Login failed: ${json.decode(response.body)['message']}';
-          _isLoading = false; // Stop loading on error
+          _isLoading = false;
         });
       }
     } catch (e) {
       setState(() {
         _errorMessage = 'Unexpected error occurred: $e';
-        _isLoading = false; // Stop loading on error
+        _isLoading = false;
       });
     }
   }

@@ -2,7 +2,7 @@ const express = require('express');
 const bcrypt = require('bcrypt');
 const User = require('../models/User');
 const Turf = require('../models/Turf');
-const mongoose = require('mongoose');
+const { loginUser } = require('../Controllers/authControllers');
 const router = express.Router();
 
 // User registration
@@ -10,7 +10,6 @@ router.post('/register', async (req, res) => {
     const { username, email, password, mobile } = req.body; 
 
     try {
-        // Check if the user already exists
         const existingUser = await User.findOne({ email });
         if (existingUser) {
             return res.status(400).json({ message: 'User already exists' });
@@ -31,21 +30,16 @@ router.post('/login', async (req, res) => {
     const { email, password } = req.body;
 
     try {
-        const user = await User.findOne({ email });
-        if (!user) {
-            return res.status(404).json({ message: 'User not found' });
-        }
-
-        const isMatch = await bcrypt.compare(password, user.password);
-        if (!isMatch) {
-            return res.status(401).json({ message: 'Invalid credentials' });
-        }
-
-        return res.status(200).json({
-            message: 'Login successful',
-            role: user.role // 'user', 'admin', or 'manager'
-        });
+        console.log(email);
+        const response = await loginUser(email, password);
+        return res.status(200).json(response);
     } catch (error) {
+        if (error.message === 'No account found with this email') {
+            return res.status(404).json({ message: error.message });
+        }
+        if (error.message === 'Invalid credentials') {
+            return res.status(401).json({ message: error.message });
+        }
         console.error('Login error:', error);
         return res.status(500).json({ message: 'Server error', error });
     }
@@ -62,12 +56,12 @@ router.post('/bookTurf', async (req, res) => {
         const slotIndex = turf.availableSlots.findIndex(slot =>
             slot.date.toISOString().split('T')[0] === date &&
             slot.time === time &&
-            !slot.bookedBy.includes(userId) // Ensure userId is not already booked
+            !slot.bookedBy.includes(userId) 
         );
 
         if (slotIndex === -1) return res.status(400).json({ message: 'Slot not available' });
 
-        turf.availableSlots[slotIndex].bookedBy.push(userId); // Add userId to bookedBy array
+        turf.availableSlots[slotIndex].bookedBy.push(userId);
         await turf.save();
 
         res.status(200).json({ message: 'Turf booked successfully', turf });
