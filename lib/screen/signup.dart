@@ -3,6 +3,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:sportsconnect/indicator.dart';
 import 'package:sportsconnect/header.dart';
+import 'package:sportsconnect/colors.dart'; 
 
 class SignupScreen extends StatefulWidget {
   const SignupScreen({super.key});
@@ -47,7 +48,7 @@ class SignupScreenState extends State<SignupScreen> {
 
     try {
       final response = await http.post(
-        Uri.parse('http://localhost:3000/api/user/register'), // Update with your backend URL
+        Uri.parse('http://localhost:3000/api/user/register'), 
         headers: {'Content-Type': 'application/json'},
         body: json.encode({
           'username': _usernameController.text.trim(),
@@ -75,6 +76,9 @@ class SignupScreenState extends State<SignupScreen> {
 
   @override
   Widget build(BuildContext context) {
+    // Determine if the current theme is dark or light
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Sign Up'),
@@ -100,49 +104,59 @@ class SignupScreenState extends State<SignupScreen> {
             const SizedBox(height: 20),
             TextField(
               controller: _usernameController,
-              decoration: const InputDecoration(
+              decoration: InputDecoration(
                 labelText: 'Username',
-                border: OutlineInputBorder(),
+                border: const OutlineInputBorder(),
                 hintText: 'Enter your username',
+                fillColor: isDarkMode ? AppColors.darkContainer : AppColors.lightContainer,
+                filled: true,
               ),
             ),
             const SizedBox(height: 20),
             TextField(
               controller: _emailController,
-              decoration: const InputDecoration(
+              decoration: InputDecoration(
                 labelText: 'Email',
-                border: OutlineInputBorder(),
+                border: const OutlineInputBorder(),
                 hintText: 'Enter your email address',
+                fillColor: isDarkMode ? AppColors.darkContainer : AppColors.lightContainer,
+                filled: true,
               ),
               keyboardType: TextInputType.emailAddress,
             ),
             const SizedBox(height: 20),
             TextField(
               controller: _mobileController,
-              decoration: const InputDecoration(
+              decoration: InputDecoration(
                 labelText: 'Mobile Number',
-                border: OutlineInputBorder(),
+                border: const OutlineInputBorder(),
                 hintText: 'Enter your mobile number',
+                fillColor: isDarkMode ? AppColors.darkContainer : AppColors.lightContainer,
+                filled: true,
               ),
               keyboardType: TextInputType.phone,
             ),
             const SizedBox(height: 20),
             TextField(
               controller: _passwordController,
-              decoration: const InputDecoration(
+              decoration: InputDecoration(
                 labelText: 'Password',
-                border: OutlineInputBorder(),
+                border: const OutlineInputBorder(),
                 hintText: 'Enter your password',
+                fillColor: isDarkMode ? AppColors.darkContainer : AppColors.lightContainer,
+                filled: true,
               ),
               obscureText: true,
             ),
             const SizedBox(height: 20),
             TextField(
               controller: _confirmPasswordController,
-              decoration: const InputDecoration(
+              decoration: InputDecoration(
                 labelText: 'Confirm Password',
-                border: OutlineInputBorder(),
+                border: const OutlineInputBorder(),
                 hintText: 'Re-enter your password',
+                fillColor: isDarkMode ? AppColors.darkContainer : AppColors.lightContainer,
+                filled: true,
               ),
               obscureText: true,
             ),

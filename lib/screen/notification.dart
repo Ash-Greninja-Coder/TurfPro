@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sportsconnect/indicator.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:sportsconnect/colors.dart'; // Import your colors file
 
 class NotificationPreferencesScreen extends StatefulWidget {
   const NotificationPreferencesScreen({super.key});
@@ -14,6 +15,9 @@ class NotificationPreferencesScreenState extends State<NotificationPreferencesSc
 
   @override
   Widget build(BuildContext context) {
+    // Determine if the current theme is dark or light
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Notification Preferences'),
@@ -26,7 +30,7 @@ class NotificationPreferencesScreenState extends State<NotificationPreferencesSc
             const IndicatorWidget(currentStep: 3, totalSteps: 4),
             const SizedBox(height: 20),
             Image.asset(
-              'assests/images/Not.png',
+              'assets/images/Not.png', // Corrected asset path if necessary
               fit: BoxFit.cover,
             ),
             const Text(
@@ -43,6 +47,10 @@ class NotificationPreferencesScreenState extends State<NotificationPreferencesSc
                   _enableNotifications = value;
                 });
               },
+              activeColor: isDarkMode ? AppColors.darkPrimary : AppColors.lightPrimary,
+              // Optional: Customize the inactive thumb and track colors if needed
+              inactiveThumbColor: isDarkMode ? AppColors.darkOutline : AppColors.lightOutline,
+              inactiveTrackColor: isDarkMode ? AppColors.darkSurface : AppColors.lightSurface,
             ),
             const SizedBox(height: 20),
             ElevatedButton(
@@ -50,6 +58,9 @@ class NotificationPreferencesScreenState extends State<NotificationPreferencesSc
                 saveNotificationPreference(_enableNotifications);
                 Navigator.pushNamed(context, '/ready');
               },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: isDarkMode ? AppColors.darkPrimary : AppColors.lightPrimary, // Button color
+              ),
               child: const Text('Continue'),
             ),
           ],

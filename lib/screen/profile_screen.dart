@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sportsconnect/screen/login.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -8,24 +9,21 @@ class ProfileScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Profile'),
-        automaticallyImplyLeading: false, // Removes the back button
+        automaticallyImplyLeading: false, 
       ),
       body: CustomScrollView(
         slivers: [
-          // Profile Header
           SliverAppBar(
             expandedHeight: 200.0,
             pinned: true,
             flexibleSpace: FlexibleSpaceBar(
               background: Stack(
                 children: [
-                  // Cover Image
                   Image.network(
                     'https://images.unsplash.com/photo-1506748686214-e9df14d4d9d0?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwzNjUyOXwwfDF8c2VhcmNofDB8fHR1cmZ8ZW58MHx8fHwxNjYyOTU4MjM0&ixlib=rb-1.2.1&q=80&w=1080',
                     fit: BoxFit.cover,
                     width: double.infinity,
                   ),
-                  // Profile Picture and Logout Button
                   Positioned(
                     left: 16.0,
                     bottom: 16.0,
@@ -37,16 +35,15 @@ class ProfileScreen extends StatelessWidget {
                             'https://randomuser.me/api/portraits/men/1.jpg',
                           ),
                         ),
-                        const SizedBox(height: 8), // Spacing between avatar and button
+                        const SizedBox(height: 8), 
                         ElevatedButton(
                           onPressed: () {
-                            // Add your logout logic here
-                            // Example: Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => LoginScreen()));
+                            Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const LoginScreen()));
                           },
-                          child: const Text('Logout'),
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.red, // Set background color
+                            backgroundColor: Colors.red, 
                           ),
+                          child: const Text('Logout'),
                         ),
                       ],
                     ),

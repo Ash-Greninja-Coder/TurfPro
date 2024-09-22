@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'dart:convert';
 import 'package:sportsconnect/screen/admin_panel/admin_panel_section.dart';
+import 'package:sportsconnect/screen/forgot_password.dart';
 import 'package:sportsconnect/screen/home/homescreen.dart';
 import 'package:sportsconnect/screen/manager_panel/manager_panel_screen.dart';
-import 'dart:convert';
+import 'package:sportsconnect/colors.dart'; // Import your colors file
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -15,7 +17,7 @@ class LoginScreen extends StatefulWidget {
 class LoginScreenState extends State<LoginScreen> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  
+
   bool _isLoading = false;
   String _errorMessage = '';
 
@@ -81,56 +83,100 @@ class LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+
     return Scaffold(
+      backgroundColor: isDarkMode ? AppColors.darkContainer : AppColors.lightContainer,
       appBar: AppBar(
+        backgroundColor: isDarkMode ? AppColors.darkContainer : AppColors.lightContainer,
         title: const Text('Login'),
+        centerTitle: true,
       ),
       body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            const SizedBox(height: 20),
-            const Text(
-              'Welcome back! Please log in to continue.',
-              textAlign: TextAlign.center,
-            ),
-            const SizedBox(height: 20),
-            TextField(
-              controller: _emailController,
-              decoration: const InputDecoration(
-                labelText: 'Email',
-                border: OutlineInputBorder(),
-                hintText: 'Enter your email',
-              ),
-              keyboardType: TextInputType.emailAddress,
-            ),
-            const SizedBox(height: 20),
-            TextField(
-              controller: _passwordController,
-              decoration: const InputDecoration(
-                labelText: 'Password',
-                border: OutlineInputBorder(),
-                hintText: 'Enter your password',
-              ),
-              obscureText: true,
-            ),
-            const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: _isLoading ? null : _loginUser,
-              child: _isLoading 
-                ? const CircularProgressIndicator() 
-                : const Text('Login'),
-            ),
-            if (_errorMessage.isNotEmpty)
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(
-                  _errorMessage,
-                  style: const TextStyle(color: Colors.red),
+        padding: const EdgeInsets.all(20.0),
+        child: Center(
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                ClipOval(
+                  child: Image.asset(
+                    'assests/images/logo.png',
+                    height: 150, // Adjust the height as needed
+                    width: 150,  // Adjust the width as needed
+                    fit: BoxFit.cover, // Ensures the image fills the oval
+                  ),
                 ),
-              ),
-          ],
+                const SizedBox(height: 20),
+                const Text(
+                  'Welcome back! Please log in to continue.',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+                ),
+                const SizedBox(height: 30),
+                TextField(
+                  controller: _emailController,
+                  decoration: InputDecoration(
+                    labelText: 'Email',
+                    border: const OutlineInputBorder(),
+                    hintText: 'Enter your email',
+                    fillColor: isDarkMode ? AppColors.darkContainer : AppColors.lightContainer,
+                    filled: true,
+                    prefixIcon: const Icon(Icons.email, color: Colors.grey),
+                  ),
+                  keyboardType: TextInputType.emailAddress,
+                ),
+                const SizedBox(height: 20),
+                TextField(
+                  controller: _passwordController,
+                  decoration: InputDecoration(
+                    labelText: 'Password',
+                    border: const OutlineInputBorder(),
+                    hintText: 'Enter your password',
+                    fillColor: isDarkMode ? AppColors.darkContainer : AppColors.lightContainer,
+                    filled: true,
+                    prefixIcon: const Icon(Icons.lock, color: Colors.grey),
+                  ),
+                  obscureText: true,
+                ),
+                const SizedBox(height: 30),
+                ElevatedButton(
+                  onPressed: _isLoading ? null : _loginUser,
+                  style: ElevatedButton.styleFrom(
+                    padding: const EdgeInsets.symmetric(vertical: 15.0),
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
+                    backgroundColor: isDarkMode ? Colors.grey[700] : Colors.green,
+                  ),
+                  child: _isLoading 
+                    ? const CircularProgressIndicator(color: Colors.white) 
+                    : const Text('Login', style: TextStyle(fontSize: 16)),
+                ),
+                const SizedBox(height: 20),
+                if (_errorMessage.isNotEmpty)
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      _errorMessage,
+                      style: const TextStyle(color: Colors.red),
+                    ),
+                  ),
+                const SizedBox(height: 20),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const ForgotPasswordScreen()),
+                    );
+
+                  },
+                  child: const Text(
+                    'Forgot Password?',
+                    style: TextStyle(color: Colors.blue, fontSize: 16, fontWeight: FontWeight.w500),
+                  ),
+                ),
+              ],
+            ),
+          ),
         ),
       ),
     );

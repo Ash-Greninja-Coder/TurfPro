@@ -7,6 +7,7 @@ import 'ameinties_section.dart';
 import 'offers_section.dart';
 import 'reviews_section.dart';
 import 'sports_section.dart';
+import 'package:sportsconnect/colors.dart'; // Import your colors file
 
 class TurfDetailsScreen extends StatelessWidget {
   final Turf turf; 
@@ -15,6 +16,9 @@ class TurfDetailsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Determine if the current theme is dark or light
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+
     return Scaffold(
       appBar: const CustomAppBar(),
       body: SingleChildScrollView(
@@ -33,7 +37,11 @@ class TurfDetailsScreen extends StatelessWidget {
                 children: [
                   Text(
                     turf.name, 
-                    style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                    style: TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                      color: isDarkMode ? AppColors.darkOnSurface : AppColors.lightOnSurface,
+                    ),
                   ),
                   const SizedBox(height: 8),
                   Text(
@@ -54,8 +62,11 @@ class TurfDetailsScreen extends StatelessWidget {
                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
                   ),
                   const SizedBox(height: 8),
-                  const Text(
+                  Text(
                     'Azco - The Games Arena has the below mentioned facilities: ...',
+                    style: TextStyle(
+                      color: isDarkMode ? AppColors.darkOnSurface : AppColors.lightOnSurface,
+                    ),
                   ),
                   const SizedBox(height: 16),
                   const ReviewsSection(),
@@ -69,7 +80,7 @@ class TurfDetailsScreen extends StatelessWidget {
         padding: const EdgeInsets.all(16.0),
         child: ElevatedButton(
           style: ElevatedButton.styleFrom(
-            backgroundColor: Colors.green,
+            backgroundColor: isDarkMode ? AppColors.darkPrimary : AppColors.lightPrimary,
             padding: const EdgeInsets.symmetric(vertical: 16.0),
           ),
           onPressed: () {

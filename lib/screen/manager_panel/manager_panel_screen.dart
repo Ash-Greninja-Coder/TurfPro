@@ -1,13 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:sportsconnect/colors.dart'; // Import your colors file
 
 class ManagerPanelScreen extends StatelessWidget {
   const ManagerPanelScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    // Determine if the current theme is dark or light
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Manager Panel'),
+        backgroundColor: isDarkMode ? AppColors.darkSurface : AppColors.lightSurface,
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -21,6 +26,9 @@ class ManagerPanelScreen extends StatelessWidget {
             ),
             const SizedBox(height: 40),
             ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: isDarkMode ? AppColors.darkPrimary : AppColors.lightPrimary,
+              ),
               onPressed: () {
                 // Navigate to View Bookings Screen
                 Navigator.push(
@@ -32,6 +40,9 @@ class ManagerPanelScreen extends StatelessWidget {
             ),
             const SizedBox(height: 20),
             ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: isDarkMode ? AppColors.darkPrimary : AppColors.lightPrimary,
+              ),
               onPressed: () {
                 // Navigate to Manage Turfs Screen
                 Navigator.push(
@@ -54,12 +65,21 @@ class ViewBookingsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Determine if the current theme is dark or light
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('View Bookings'),
+        backgroundColor: isDarkMode ? AppColors.darkSurface : AppColors.lightSurface,
       ),
-      body: const Center(
-        child: Text('List of bookings will be displayed here.'),
+      body: Center(
+        child: Text(
+          'List of bookings will be displayed here.',
+          style: TextStyle(
+            color: isDarkMode ? AppColors.darkOnSurface : AppColors.lightOnSurface,
+          ),
+        ),
       ),
     );
   }
@@ -70,12 +90,21 @@ class ManageTurfsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Determine if the current theme is dark or light
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Manage Turfs'),
+        backgroundColor: isDarkMode ? AppColors.darkSurface : AppColors.lightSurface,
       ),
-      body: const Center(
-        child: Text('Turfs management options will be displayed here.'),
+      body: Center(
+        child: Text(
+          'Turfs management options will be displayed here.',
+          style: TextStyle(
+            color: isDarkMode ? AppColors.darkOnSurface : AppColors.lightOnSurface,
+          ),
+        ),
       ),
     );
   }
