@@ -1,5 +1,5 @@
 class Turf {
-  final String id; // Unique identifier for the turf
+  final String id; 
   final String name;
   final String imageUrl;
   final String games;
@@ -9,7 +9,7 @@ class Turf {
   final double rating;
 
   Turf({
-    required this.id, // Update constructor to include ID
+    required this.id, 
     required this.name,
     required this.imageUrl,
     required this.games,
@@ -19,10 +19,9 @@ class Turf {
     required this.rating,
   });
 
-  // Factory constructor to create Turf object from JSON
   factory Turf.fromJson(Map<String, dynamic> json) {
     return Turf(
-      id: json['_id'], // Assuming the ID field from the backend is _id
+      id: json['_id'],
       name: json['name'],
       imageUrl: json['imageUrl'],
       games: json['games'],

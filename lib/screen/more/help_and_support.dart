@@ -28,7 +28,6 @@ class HelpAndSupportScreen extends StatelessWidget {
               icon: Icons.contact_support,
               title: 'Contact Support',
               onTap: () {
-                // Navigate to Contact Support page
               },
             ),
             const Divider(),
@@ -37,7 +36,6 @@ class HelpAndSupportScreen extends StatelessWidget {
               icon: Icons.forum,
               title: 'Community Resources',
               onTap: () {
-                // Navigate to Community Resources page
               },
             ),
             const Divider(),
@@ -46,7 +44,6 @@ class HelpAndSupportScreen extends StatelessWidget {
               icon: Icons.policy,
               title: 'Privacy Policy',
               onTap: () {
-                // Navigate to Privacy Policy
               },
             ),
             const Divider(),
@@ -55,7 +52,6 @@ class HelpAndSupportScreen extends StatelessWidget {
               icon: Icons.announcement,
               title: 'Terms of Service',
               onTap: () {
-                // Navigate to Terms of Service
               },
             ),
           ],

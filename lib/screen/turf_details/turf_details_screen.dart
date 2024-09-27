@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:sportsconnect/models/turf/turf.dart';
-import 'package:sportsconnect/screen/booking/booking_screen.dart';
+import 'package:turfpro/models/turf/turf.dart';
+import 'package:turfpro/screen/booking/booking_screen.dart';
 import 'app_bar.dart';
 import 'action_buttons.dart';
 import 'ameinties_section.dart';
 import 'offers_section.dart';
 import 'reviews_section.dart';
 import 'sports_section.dart';
-import 'package:sportsconnect/colors.dart'; // Import your colors file
+import 'package:turfpro/colors.dart'; 
 
 class TurfDetailsScreen extends StatelessWidget {
   final Turf turf; 

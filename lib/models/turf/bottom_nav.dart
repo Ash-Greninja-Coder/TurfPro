@@ -42,22 +42,17 @@ class CustomBottomNavBar extends StatelessWidget {
       unselectedItemColor: Colors.white, 
       showUnselectedLabels: true,
       onTap: (index) {
-        // Handle navigation based on the selected index
         switch (index) {
           case 0:
-            // Navigate to Home
             Navigator.pushNamed(context, '/home');
             break;
           case 1:
-            // Navigate to Book
             Navigator.pushNamed(context, '/book');
             break;
           case 2:
-            // Navigate to Games
             Navigator.pushNamed(context, '/games');
             break;
           case 3:
-            // Navigate to More
             Navigator.pushNamed(context, '/more');
             break;
         }

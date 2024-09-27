@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:sportsconnect/screen/profile_screen.dart';
+import 'package:turfpro/screen/profile_screen.dart';
 import 'payments_screen.dart';
 import 'turfs_screen.dart';
 import 'managers_screen.dart';

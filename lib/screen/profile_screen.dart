@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:sportsconnect/screen/login.dart';
+import 'package:turfpro/screen/login.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});

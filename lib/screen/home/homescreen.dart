@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:sportsconnect/models/turf/app_bar.dart';  
-import 'package:sportsconnect/models/turf/bottom_nav.dart';
-import 'package:sportsconnect/models/turf/turf_card.dart'; 
-import 'package:sportsconnect/models/turf/turf.dart'; 
+import 'package:turfpro/models/turf/app_bar.dart';  
+import 'package:turfpro/models/turf/bottom_nav.dart';
+import 'package:turfpro/models/turf/turf_card.dart'; 
+import 'package:turfpro/models/turf/turf.dart'; 
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});

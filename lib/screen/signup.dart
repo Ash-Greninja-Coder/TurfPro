@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import 'package:sportsconnect/indicator.dart';
-import 'package:sportsconnect/header.dart';
-import 'package:sportsconnect/colors.dart'; 
+import 'package:turfpro/indicator.dart';
+import 'package:turfpro/header.dart';
+import 'package:turfpro/colors.dart'; 
 
 class SignupScreen extends StatefulWidget {
   const SignupScreen({super.key});

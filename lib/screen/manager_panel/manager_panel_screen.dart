@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:sportsconnect/colors.dart'; // Import your colors file
+import 'package:turfpro/colors.dart'; 
 
 class ManagerPanelScreen extends StatelessWidget {
   const ManagerPanelScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    // Determine if the current theme is dark or light
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
 
     return Scaffold(
@@ -30,7 +29,6 @@ class ManagerPanelScreen extends StatelessWidget {
                 backgroundColor: isDarkMode ? AppColors.darkPrimary : AppColors.lightPrimary,
               ),
               onPressed: () {
-                // Navigate to View Bookings Screen
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => const ViewBookingsScreen()),
@@ -44,7 +42,6 @@ class ManagerPanelScreen extends StatelessWidget {
                 backgroundColor: isDarkMode ? AppColors.darkPrimary : AppColors.lightPrimary,
               ),
               onPressed: () {
-                // Navigate to Manage Turfs Screen
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => const ManageTurfsScreen()),
@@ -52,7 +49,6 @@ class ManagerPanelScreen extends StatelessWidget {
               },
               child: const Text('Manage Turfs'),
             ),
-            // Additional buttons can be added here
           ],
         ),
       ),
@@ -65,7 +61,6 @@ class ViewBookingsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Determine if the current theme is dark or light
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
 
     return Scaffold(
@@ -90,7 +85,6 @@ class ManageTurfsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Determine if the current theme is dark or light
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
 
     return Scaffold(

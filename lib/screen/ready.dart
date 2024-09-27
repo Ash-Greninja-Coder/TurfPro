@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:sportsconnect/indicator.dart';
-import 'package:sportsconnect/screen/home/homescreen.dart';
+import 'package:turfpro/indicator.dart';
+import 'package:turfpro/screen/home/homescreen.dart';
 
 class ReadyScreen extends StatelessWidget {
   const ReadyScreen({super.key});

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:sportsconnect/models/payment_model.dart';
+import 'package:turfpro/models/payment_model.dart';
 
 class PaymentManagementScreen extends StatefulWidget {
   const PaymentManagementScreen({super.key});

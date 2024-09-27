@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:sportsconnect/screen/booking/booking_summary.dart';
+import 'package:turfpro/screen/booking/booking_summary.dart';
 import 'payments_method.dart';
 import 'success.dart';
 

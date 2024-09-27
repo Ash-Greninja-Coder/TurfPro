@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:sportsconnect/screen/admin_panel/payments_management_screen.dart';
+import 'package:turfpro/screen/admin_panel/payments_management_screen.dart';
 
 
 class PaymentsScreen extends StatelessWidget {

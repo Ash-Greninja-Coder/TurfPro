@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:sportsconnect/screen/more/help_and_support.dart';
-import 'package:sportsconnect/screen/profile_screen.dart';
+import 'package:turfpro/screen/more/help_and_support.dart';
+import 'package:turfpro/screen/profile_screen.dart';
 
 class MoreScreen extends StatelessWidget {
   const MoreScreen({super.key});

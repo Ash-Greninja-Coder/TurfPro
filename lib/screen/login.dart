@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import 'package:sportsconnect/screen/admin_panel/admin_panel_section.dart';
-import 'package:sportsconnect/screen/forgot_password.dart';
-import 'package:sportsconnect/screen/home/homescreen.dart';
-import 'package:sportsconnect/screen/manager_panel/manager_panel_screen.dart';
-import 'package:sportsconnect/colors.dart'; // Import your colors file
+import 'package:turfpro/screen/admin_panel/admin_panel_section.dart';
+import 'package:turfpro/screen/forgot_password.dart';
+import 'package:turfpro/screen/home/homescreen.dart';
+import 'package:turfpro/screen/manager_panel/manager_panel_screen.dart';
+import 'package:turfpro/colors.dart'; 
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -36,7 +36,7 @@ class LoginScreenState extends State<LoginScreen> {
 
     try {
       final response = await http.post(
-        Uri.parse('http://localhost:3000/api/user/login'), // Update the URL if necessary
+        Uri.parse('http://localhost:3000/api/user/login'),
         headers: {'Content-Type': 'application/json'},
         body: json.encode({
           'email': _emailController.text.trim(),
@@ -102,9 +102,9 @@ class LoginScreenState extends State<LoginScreen> {
                 ClipOval(
                   child: Image.asset(
                     'assests/images/logo.png',
-                    height: 150, // Adjust the height as needed
-                    width: 150,  // Adjust the width as needed
-                    fit: BoxFit.cover, // Ensures the image fills the oval
+                    height: 150, 
+                    width: 150,  
+                    fit: BoxFit.cover,
                   ),
                 ),
                 const SizedBox(height: 20),

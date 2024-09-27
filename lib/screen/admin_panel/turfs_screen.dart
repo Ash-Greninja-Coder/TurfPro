@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../../models/turf/turf.dart'; // Adjust path as needed
-import '../../models/turf/turf_card.dart'; // Adjust path as needed
+import '../../models/turf/turf.dart'; 
+import '../../models/turf/turf_card.dart'; 
 
 class TurfsScreen extends StatelessWidget {
   final List<Turf> turfs = [

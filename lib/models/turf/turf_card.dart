@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'turf.dart';
-import 'package:sportsconnect/screen/turf_details/turf_details_screen.dart'; // Ensure this import is correct
+import 'package:turfpro/screen/turf_details/turf_details_screen.dart';
 
 class TurfCard extends StatelessWidget {
   final Turf turf;
