@@ -2,11 +2,12 @@ const express = require('express');
 const bcrypt = require('bcrypt');
 const User = require('../models/User');
 const Turf = require('../models/Turf');
+const Manager = require('../models/Manager');
 const Feedback = require('../models/Feedback');
 const Slot = require('../models/Slot');
 const router = express.Router();
 
-// Create a slot
+// Slot routes
 router.post('/slots', async (req, res) => {
     const { sport, date, time } = req.body;
     const newSlot = new Slot({ sport, date, time });
@@ -14,54 +15,97 @@ router.post('/slots', async (req, res) => {
         await newSlot.save();
         res.status(201).json({ message: 'Slot created successfully', slot: newSlot });
     } catch (error) {
-        res.status(400).json({ message: 'Error creating slot', error });
+        res.status(400).json({ message: 'Error creating slot', error: error.message });
     }
 });
 
-// Get all slots
 router.get('/slots', async (req, res) => {
     try {
         const slots = await Slot.find();
         res.status(200).json(slots);
     } catch (error) {
-        res.status(500).json({ message: 'Error fetching slots', error });
+        res.status(500).json({ message: 'Error fetching slots', error: error.message });
     }
 });
 
-// Admin: Add a new manager
+// Manager routes
 router.post('/addManager', async (req, res) => {
-    const { username, email, password } = req.body;
+    const { name, email, phone, password } = req.body;
+
+    if (!name || !email || !phone || !password) {
+        return res.status(400).json({ message: 'All fields are required.' });
+    }
 
     try {
         const hashedPassword = await bcrypt.hash(password, 10);
-        const manager = new User({
-            name: username,  // Assuming username is actually the name field
+        const manager = new Manager({
+            name,
             email,
+            phone,
             password: hashedPassword,
-            role: 'manager'
         });
 
         await manager.save();
         res.status(201).json({ message: 'Manager added successfully', manager });
     } catch (error) {
-        res.status(400).json({ message: 'Error adding manager' });
+        res.status(400).json({ message: 'Error adding manager', error: error.message });
     }
 });
 
-// Admin: Add a new turf
-router.post('/addTurf', async (req, res) => {
-    const { name, sport } = req.body;
+// Update Manager
+router.put('/updateManager/:id', async (req, res) => {
+    const { id } = req.params;
+    const { name, email, phone } = req.body;
+
+    if (!name || !email || !phone) {
+        return res.status(400).json({ message: 'All fields are required.' });
+    }
 
     try {
-        const turf = new Turf({ name, sport, availableSlots: [] });
-        await turf.save();
-        res.status(201).json({ message: 'Turf added successfully', turf });
+        const updatedManager = await Manager.findByIdAndUpdate(
+            id,
+            { name, email, phone },
+            { new: true }
+        );
+
+        if (!updatedManager) {
+            return res.status(404).json({ message: 'Manager not found.' });
+        }
+
+        res.status(200).json({ message: 'Manager updated successfully', updatedManager });
     } catch (error) {
-        res.status(400).json({ message: 'Error adding turf' });
+        res.status(400).json({ message: 'Error updating manager', error: error.message });
     }
 });
 
-// Admin: Manage feedback
+// Delete Manager
+router.delete('/deleteManager/:id', async (req, res) => {
+    const { id } = req.params;
+
+    try {
+        const deletedManager = await Manager.findByIdAndDelete(id);
+
+        if (!deletedManager) {
+            return res.status(404).json({ message: 'Manager not found.' });
+        }
+
+        res.status(200).json({ message: 'Manager deleted successfully' });
+    } catch (error) {
+        res.status(500).json({ message: 'Error deleting manager', error: error.message });
+    }
+});
+
+// Get Managers
+router.get('/managers', async (req, res) => {
+    try {
+        const managers = await Manager.find();
+        res.status(200).json(managers);
+    } catch (error) {
+        res.status(500).json({ message: 'Error fetching managers', error: error.message });
+    }
+});
+
+// Feedback routes
 router.put('/feedback/:id', async (req, res) => {
     const { id } = req.params;
     const { response } = req.body;
@@ -76,23 +120,21 @@ router.put('/feedback/:id', async (req, res) => {
         if (!feedback) return res.status(404).json({ message: 'Feedback not found' });
         res.status(200).json({ message: 'Feedback responded to', feedback });
     } catch (error) {
-        res.status(500).json({ message: 'Failed to respond to feedback' });
+        res.status(500).json({ message: 'Failed to respond to feedback', error: error.message });
     }
 });
 
-// Admin: View all feedback
 router.get('/feedback', async (req, res) => {
     try {
         const feedbacks = await Feedback.find().populate('userId');
         res.status(200).json(feedbacks);
     } catch (error) {
-        res.status(500).json({ message: 'Error fetching feedback' });
+        res.status(500).json({ message: 'Error fetching feedback', error: error.message });
     }
 });
 
-// Admin dashboard route
+// Dashboard route
 router.get('/dashboard', (req, res) => {
-    // Logic for fetching admin dashboard data
     res.json({ message: 'Admin dashboard data' });
 });
 

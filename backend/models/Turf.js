@@ -8,8 +8,6 @@ const turfSchema = new mongoose.Schema({
     openHours: { type: String, required: true },
     discount: { type: String, required: true },
     rating: { type: Number, required: true },
-});
+}, { timestamps: true });
 
-const Turf = mongoose.model('Turf', turfSchema);
-
-module.exports = Turf;
+module.exports = mongoose.model('Turf', turfSchema);

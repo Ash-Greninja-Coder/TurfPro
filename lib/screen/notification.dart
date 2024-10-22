@@ -29,7 +29,7 @@ class NotificationPreferencesScreenState extends State<NotificationPreferencesSc
             const IndicatorWidget(currentStep: 3, totalSteps: 4),
             const SizedBox(height: 20),
             Image.asset(
-              'assets/images/Not.png', 
+              'assests/images/Not.png', 
               fit: BoxFit.cover,
             ),
             const Text(

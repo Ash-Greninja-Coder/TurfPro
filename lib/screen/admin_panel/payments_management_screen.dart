@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 import 'package:turfpro/models/payment_model.dart';
+import 'dart:convert';
 
 class PaymentManagementScreen extends StatefulWidget {
   const PaymentManagementScreen({super.key});
@@ -18,14 +20,20 @@ class PaymentManagementScreenState extends State<PaymentManagementScreen> {
   }
 
   Future<void> fetchPayments() async {
-    // Simulated fetching payments
-    setState(() {
-      payments = [
-        PaymentModel(id: '1', customerName: 'John Doe', amount: 100, status: 'Completed'),
-        PaymentModel(id: '2', customerName: 'Jane Smith', amount: 150, status: 'Pending'),
-        PaymentModel(id: '3', customerName: 'Alice Johnson', amount: 200, status: 'Completed'),
-      ];
-    });
+    try {
+      final response = await http.get(Uri.parse('http://localhost:3000/api/payments'));
+
+      if (response.statusCode == 200) {
+        final List<dynamic> paymentList = json.decode(response.body);
+        setState(() {
+          payments = paymentList.map((payment) => PaymentModel.fromJson(payment)).toList();
+        });
+      } else {
+        throw Exception('Failed to load payments');
+      }
+    } catch (e) {
+      print(e); 
+    }
   }
 
   @override

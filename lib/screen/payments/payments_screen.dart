@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:turfpro/screen/booking/booking_summary.dart';
+//import 'package:turfpro/screen/booking/booking_summary.dart';
 import 'payments_method.dart';
 import 'success.dart';
 
@@ -17,7 +17,7 @@ class PaymentScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const BookingSummary(),
+            //const BookingSummaryPage(),
             const SizedBox(height: 16),
             const PaymentMethodSection(),
             const Spacer(),

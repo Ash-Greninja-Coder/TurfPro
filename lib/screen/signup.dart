@@ -76,7 +76,6 @@ class SignupScreenState extends State<SignupScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // Determine if the current theme is dark or light
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
 
     return Scaffold(
@@ -110,6 +109,7 @@ class SignupScreenState extends State<SignupScreen> {
                 hintText: 'Enter your username',
                 fillColor: isDarkMode ? AppColors.darkContainer : AppColors.lightContainer,
                 filled: true,
+                prefixIcon: const Icon(Icons.person),
               ),
             ),
             const SizedBox(height: 20),
@@ -121,6 +121,7 @@ class SignupScreenState extends State<SignupScreen> {
                 hintText: 'Enter your email address',
                 fillColor: isDarkMode ? AppColors.darkContainer : AppColors.lightContainer,
                 filled: true,
+                prefixIcon: const Icon(Icons.email),
               ),
               keyboardType: TextInputType.emailAddress,
             ),
@@ -133,6 +134,7 @@ class SignupScreenState extends State<SignupScreen> {
                 hintText: 'Enter your mobile number',
                 fillColor: isDarkMode ? AppColors.darkContainer : AppColors.lightContainer,
                 filled: true,
+                prefixIcon: const Icon(Icons.phone),
               ),
               keyboardType: TextInputType.phone,
             ),
@@ -145,6 +147,7 @@ class SignupScreenState extends State<SignupScreen> {
                 hintText: 'Enter your password',
                 fillColor: isDarkMode ? AppColors.darkContainer : AppColors.lightContainer,
                 filled: true,
+                prefixIcon: const Icon(Icons.lock),
               ),
               obscureText: true,
             ),
@@ -157,6 +160,7 @@ class SignupScreenState extends State<SignupScreen> {
                 hintText: 'Re-enter your password',
                 fillColor: isDarkMode ? AppColors.darkContainer : AppColors.lightContainer,
                 filled: true,
+                prefixIcon: const Icon(Icons.lock),
               ),
               obscureText: true,
             ),

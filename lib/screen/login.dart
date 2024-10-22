@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:shared_preferences/shared_preferences.dart'; 
 import 'package:turfpro/screen/admin_panel/admin_panel_section.dart';
 import 'package:turfpro/screen/forgot_password.dart';
 import 'package:turfpro/screen/home/homescreen.dart';
@@ -28,6 +29,43 @@ class LoginScreenState extends State<LoginScreen> {
     super.dispose();
   }
 
+  @override
+  void initState() {
+    super.initState();
+    _checkLoginStatus();
+  }
+
+  void _checkLoginStatus() async {
+    final prefs = await SharedPreferences.getInstance();
+    String? accountType = prefs.getString('accountType');
+    
+    if (accountType != null) {
+      _navigateToScreen(accountType);
+    }
+  }
+
+  void _navigateToScreen(String accountType) {
+    if (accountType == 'Admin') {
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (context) => const AdminPanelScreen()),
+        (route) => false,
+      );
+    } else if (accountType == 'Manager') {
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (context) => const ManagerPanelScreen()),
+        (route) => false,
+      );
+    } else {
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (context) => const HomeScreen()),
+        (route) => false,
+      );
+    }
+  }
+
   void _loginUser() async {
     setState(() {
       _isLoading = true;
@@ -48,25 +86,10 @@ class LoginScreenState extends State<LoginScreen> {
         final responseData = json.decode(response.body);
         String accountType = responseData['accountType'];
 
-        if (accountType == 'Admin') {
-          Navigator.pushAndRemoveUntil(
-            context,
-            MaterialPageRoute(builder: (context) => const AdminPanelScreen()),
-            (route) => false,
-          );
-        } else if (accountType == 'Manager') {
-          Navigator.pushAndRemoveUntil(
-            context,
-            MaterialPageRoute(builder: (context) => const ManagerPanelScreen()),
-            (route) => false,
-          );
-        } else {
-          Navigator.pushAndRemoveUntil(
-            context,
-            MaterialPageRoute(builder: (context) => const HomeScreen()),
-            (route) => false,
-          );
-        }
+        final prefs = await SharedPreferences.getInstance();
+        await prefs.setString('accountType', accountType);
+
+        _navigateToScreen(accountType);
       } else {
         setState(() {
           _errorMessage = 'Login failed: ${json.decode(response.body)['message']}';
@@ -81,6 +104,16 @@ class LoginScreenState extends State<LoginScreen> {
     }
   }
 
+  void _logout() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.remove('accountType'); 
+    Navigator.pushAndRemoveUntil(
+      context,
+      MaterialPageRoute(builder: (context) => const LoginScreen()),
+      (route) => false,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
@@ -91,6 +124,12 @@ class LoginScreenState extends State<LoginScreen> {
         backgroundColor: isDarkMode ? AppColors.darkContainer : AppColors.lightContainer,
         title: const Text('Login'),
         centerTitle: true,
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.logout),
+            onPressed: _logout, 
+          ),
+        ],
       ),
       body: Padding(
         padding: const EdgeInsets.all(20.0),
@@ -101,7 +140,7 @@ class LoginScreenState extends State<LoginScreen> {
               children: [
                 ClipOval(
                   child: Image.asset(
-                    'assests/images/logo.png',
+                    'assests/images/logo.png', 
                     height: 150, 
                     width: 150,  
                     fit: BoxFit.cover,
@@ -167,7 +206,6 @@ class LoginScreenState extends State<LoginScreen> {
                       context,
                       MaterialPageRoute(builder: (context) => const ForgotPasswordScreen()),
                     );
-
                   },
                   child: const Text(
                     'Forgot Password?',

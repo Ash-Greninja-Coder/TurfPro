@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:turfpro/screen/login.dart';
 import 'package:turfpro/screen/profile_screen.dart';
 import 'payments_screen.dart';
 import 'turfs_screen.dart';
@@ -16,8 +18,8 @@ class AdminPanelScreenState extends State<AdminPanelScreen> {
 
   static final List<Widget> _screens = [
     const PaymentsScreen(),
-    TurfsScreen(),
-    ManagersScreen(),
+    const TurfsScreen(),
+    const ManagersScreen(),
   ];
 
   void _onItemTapped(int index) {
@@ -26,15 +28,21 @@ class AdminPanelScreenState extends State<AdminPanelScreen> {
     });
   }
 
-  void _logout() {
-    // Add your logout logic here
-    Navigator.pushReplacementNamed(context, '/login'); // Navigate to login screen
+  Future<void> _logout() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('isLoggedIn', false);
+    await prefs.setBool('isAdmin', false);
+
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => const LoginScreen()), 
+    );
   }
 
   void _showProfile() {
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => const ProfileScreen()), // Navigate to ProfileScreen
+      MaterialPageRoute(builder: (context) => const ProfileScreen()), 
     );
   }
 
@@ -46,11 +54,11 @@ class AdminPanelScreenState extends State<AdminPanelScreen> {
         actions: [
           IconButton(
             icon: const Icon(Icons.person),
-            onPressed: _showProfile, // Show profile screen on button press
+            onPressed: _showProfile, 
           ),
           IconButton(
             icon: const Icon(Icons.logout),
-            onPressed: _logout, // Logout functionality
+            onPressed: _logout, 
           ),
         ],
       ),

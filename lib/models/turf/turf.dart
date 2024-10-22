@@ -1,5 +1,5 @@
 class Turf {
-  final String id; 
+  final String id;
   final String name;
   final String imageUrl;
   final String games;
@@ -9,7 +9,7 @@ class Turf {
   final double rating;
 
   Turf({
-    required this.id, 
+    required this.id,
     required this.name,
     required this.imageUrl,
     required this.games,
@@ -21,7 +21,7 @@ class Turf {
 
   factory Turf.fromJson(Map<String, dynamic> json) {
     return Turf(
-      id: json['_id'],
+      id: json['_id'], 
       name: json['name'],
       imageUrl: json['imageUrl'],
       games: json['games'],
