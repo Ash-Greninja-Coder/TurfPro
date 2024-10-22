@@ -7,6 +7,7 @@ import 'package:turfpro/screen/forgot_password.dart';
 import 'package:turfpro/screen/home/homescreen.dart';
 import 'package:turfpro/screen/manager_panel/manager_panel_screen.dart';
 import 'package:turfpro/colors.dart'; 
+import 'package:firebase_auth/firebase_auth.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -18,7 +19,6 @@ class LoginScreen extends StatefulWidget {
 class LoginScreenState extends State<LoginScreen> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-
   bool _isLoading = false;
   String _errorMessage = '';
 
@@ -73,6 +73,33 @@ class LoginScreenState extends State<LoginScreen> {
     });
 
     try {
+      final email = _emailController.text.trim();
+      final password = _passwordController.text.trim();
+      
+      UserCredential userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+
+      final accountType = email == 'admin@example.com' ? 'Admin' : 'User';
+
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setString('accountType', accountType);
+      await prefs.setString('email', email);
+      _navigateToScreen(accountType);
+
+    } on FirebaseAuthException catch (e) {
+      await _checkHttpLogin();
+    } catch (e) {
+      setState(() {
+        _errorMessage = 'Unexpected error occurred: $e';
+        _isLoading = false;
+      });
+    }
+  }
+
+  Future<void> _checkHttpLogin() async {
+    try {
       final response = await http.post(
         Uri.parse('http://localhost:3000/api/user/login'),
         headers: {'Content-Type': 'application/json'},
@@ -88,7 +115,6 @@ class LoginScreenState extends State<LoginScreen> {
 
         final prefs = await SharedPreferences.getInstance();
         await prefs.setString('accountType', accountType);
-
         _navigateToScreen(accountType);
       } else {
         setState(() {
@@ -107,6 +133,7 @@ class LoginScreenState extends State<LoginScreen> {
   void _logout() async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.remove('accountType'); 
+    await prefs.remove('email'); 
     Navigator.pushAndRemoveUntil(
       context,
       MaterialPageRoute(builder: (context) => const LoginScreen()),

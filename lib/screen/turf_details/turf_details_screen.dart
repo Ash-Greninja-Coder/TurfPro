@@ -16,7 +16,6 @@ class TurfDetailsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Determine if the current theme is dark or light
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
 
     return Scaffold(
@@ -25,11 +24,7 @@ class TurfDetailsScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Image.network(
-              turf.imageUrl, 
-              fit: BoxFit.cover,
-              width: double.infinity,
-            ),
+            _buildImage(), 
             Padding(
               padding: const EdgeInsets.all(16.0),
               child: Column(
@@ -93,5 +88,21 @@ class TurfDetailsScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Widget _buildImage() {
+    if (turf.imageUrl.startsWith('http')) {
+      return Image.network(
+        turf.imageUrl,
+        fit: BoxFit.cover,
+        width: double.infinity,
+      );
+    } else {
+      return Image.asset(
+        turf.imageUrl,
+        fit: BoxFit.cover,
+        width: double.infinity,
+      );
+    }
   }
 }

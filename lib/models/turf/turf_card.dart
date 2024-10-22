@@ -18,12 +18,7 @@ class TurfCard extends StatelessWidget {
           children: [
             Stack(
               children: [
-                Image.network(
-                  turf.imageUrl,
-                  fit: BoxFit.cover,
-                  width: double.infinity,
-                  height: 115,
-                ),
+                _buildImage(),
                 Positioned(
                   top: 8,
                   left: 8,
@@ -101,5 +96,23 @@ class TurfCard extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Widget _buildImage() {
+    if (turf.imageUrl.startsWith('http')) {
+      return Image.network(
+        turf.imageUrl,
+        fit: BoxFit.cover,
+        width: double.infinity,
+        height: 115,
+      );
+    } else {
+      return Image.asset(
+        turf.imageUrl, 
+        fit: BoxFit.cover,
+        width: double.infinity,
+        height: 115,
+      );
+    }
   }
 }

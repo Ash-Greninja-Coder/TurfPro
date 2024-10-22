@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'booking_summary.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+import '../../models/booking.dart';
 
 class BookingScreen extends StatefulWidget {
   const BookingScreen({super.key});
@@ -11,29 +13,72 @@ class BookingScreen extends StatefulWidget {
 class BookingScreenState extends State<BookingScreen> {
   String selectedSport = 'Football';
   DateTime selectedDate = DateTime.now();
-  String selectedTimeSlot = '9 AM - 10 AM';
+  List<Map<String, dynamic>> availableSlots = [];
+  String? selectedSlotId;
   bool isFullCourt = false;
+  String? userId;
 
   final Color whatsAppGreen = const Color(0xFF25D366);
   final Color whatsAppLightGreen = const Color(0xFF25D366);
 
-  final Map<String, bool> timeSlots = {
-    '7 AM - 8 AM': false,
-    '8 AM - 9 AM': true,
-    '9 AM - 10 AM': false,
-    '10 AM - 11 AM': false,
-    '11 AM - 12 PM': true,
-    '1 PM - 2 PM': false,
-    '2 PM - 3 PM': true,
-    '3 PM - 4 PM': false,
-    '4 PM - 5 PM': false,
-    '5 PM - 6 PM': true,
-    '6 PM - 7 PM': false,
-    '7 PM - 8 PM': false,
-    '8 PM - 9 PM': true,
-    '9 PM - 10 PM': false,
-    '10 PM - 11 PM': false,
-  };
+  Future<void> fetchUserId() async {
+    final response = await http.get(Uri.parse('http://localhost:3000/api/user/me'));
+    if (response.statusCode == 200) {
+      setState(() {
+        userId = json.decode(response.body)['id']; // Adjust based on your response structure
+      });
+    } else {
+      // Handle error
+    }
+  }
+
+  Future<void> fetchAvailableSlots() async {
+    final response = await http.get(
+      Uri.parse('http://localhost:3000/api/bookings/slots?sport=$selectedSport&date=${selectedDate.toIso8601String()}'),
+    );
+    if (response.statusCode == 200) {
+      setState(() {
+        availableSlots = List<Map<String, dynamic>>.from(json.decode(response.body));
+      });
+    } else {
+      // Handle error
+    }
+  }
+
+  Future<void> bookSlot() async {
+    if (selectedSlotId == null || userId == null) return;
+
+    final booking = Booking(
+      userId: userId!,
+      slotId: selectedSlotId!,
+      selectedSport: selectedSport,
+      selectedDate: selectedDate,
+      selectedTimeSlot: 'selectedTimeSlot', // Set the selected time slot based on user selection
+      isFullCourt: isFullCourt,
+      subTotal: 1000,
+      discount: 200,
+      payableAmount: 800,
+      advancePayment: 500,
+    );
+
+    final response = await http.post(
+      Uri.parse('http://localhost:3000/api/bookings'),
+      headers: {'Content-Type': 'application/json'},
+      body: jsonEncode(booking.toJson()),
+    );
+    if (response.statusCode == 201) {
+      // Handle success
+    } else {
+      // Handle error
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    fetchUserId();
+    fetchAvailableSlots();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -47,10 +92,7 @@ class BookingScreenState extends State<BookingScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text(
-              'Choose your sport',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            ),
+            const Text('Choose your sport', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
             const SizedBox(height: 10),
             Wrap(
               spacing: 10,
@@ -63,10 +105,7 @@ class BookingScreenState extends State<BookingScreen> {
               ],
             ),
             const SizedBox(height: 20),
-            const Text(
-              'Select date',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            ),
+            const Text('Select date', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
             const SizedBox(height: 10),
             TextField(
               readOnly: true,
@@ -81,41 +120,36 @@ class BookingScreenState extends State<BookingScreen> {
                   initialDate: selectedDate,
                   firstDate: DateTime(2000),
                   lastDate: DateTime(2101),
-                  builder: (context, child) {
-                    return Theme(
-                      data: ThemeData.light().copyWith(
-                        primaryColor: whatsAppGreen,
-                        colorScheme: ColorScheme.fromSwatch().copyWith(secondary: whatsAppGreen),
-                      ),
-                      child: child!,
-                    );
-                  },
                 );
                 if (picked != null && picked != selectedDate) {
                   setState(() {
                     selectedDate = picked;
+                    fetchAvailableSlots();
                   });
                 }
               },
             ),
             const SizedBox(height: 20),
-            const Text(
-              'Select time slot',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            ),
+            const Text('Available time slots', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
             const SizedBox(height: 10),
-            Wrap(
-              spacing: 10,
-              runSpacing: 10,
-              children: timeSlots.keys.map((timeSlot) {
-                return _buildTimeSlotChip(timeSlot, timeSlots[timeSlot]!);
+            Column(
+              children: availableSlots.map((slot) {
+                return ListTile(
+                  title: Text(slot['time']),
+                  trailing: Radio<String>(
+                    value: slot['_id'],
+                    groupValue: selectedSlotId,
+                    onChanged: (String? value) {
+                      setState(() {
+                        selectedSlotId = value;
+                      });
+                    },
+                  ),
+                );
               }).toList(),
             ),
             const SizedBox(height: 20),
-            const Text(
-              'Select court size',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            ),
+            const Text('Select court size', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
             const SizedBox(height: 10),
             Row(
               children: [
@@ -125,44 +159,12 @@ class BookingScreenState extends State<BookingScreen> {
               ],
             ),
             const Spacer(),
-            const Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  'Payable amount',
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                ),
-                Text(
-                  '₹1000',
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                ),
-              ],
-            ),
-            const SizedBox(height: 10),
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(
-                onPressed: () {
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => BookingSummaryPage(
-                        selectedSport: selectedSport,
-                        selectedDate: selectedDate,
-                        selectedTimeSlot: selectedTimeSlot,
-                        isFullCourt: isFullCourt,
-                        subTotal: 1000,
-                        discount: 200,
-                        payableAmount: 800,
-                        advancePayment: 500,
-                      ),
-                    ),
-                  );
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: whatsAppLightGreen,
-                ),
-                child: const Text('Continue'),
+                onPressed: bookSlot,
+                style: ElevatedButton.styleFrom(backgroundColor: whatsAppGreen),
+                child: const Text('Book Now'),
               ),
             ),
           ],
@@ -174,10 +176,9 @@ class BookingScreenState extends State<BookingScreen> {
   Widget _buildSportChip(String sport, IconData icon) {
     return ChoiceChip(
       label: Row(
-        mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(icon, size: 16),
-          const SizedBox(width: 4),
+          Icon(icon),
+          const SizedBox(width: 8),
           Text(sport),
         ],
       ),
@@ -185,35 +186,21 @@ class BookingScreenState extends State<BookingScreen> {
       onSelected: (selected) {
         setState(() {
           selectedSport = sport;
+          fetchAvailableSlots();
         });
       },
-      selectedColor: whatsAppGreen,
     );
   }
 
-  Widget _buildTimeSlotChip(String timeSlot, bool isFull) {
-    return ChoiceChip(
-      label: Text(timeSlot),
-      selected: selectedTimeSlot == timeSlot,
-      onSelected: isFull ? null : (selected) {
-        setState(() {
-          selectedTimeSlot = timeSlot;
-        });
-      },
-      selectedColor: isFull ? Colors.grey : whatsAppGreen,
-    );
-  }
-
-  Widget _buildCourtSizeChip(String label, bool isFull) {
+  Widget _buildCourtSizeChip(String label, bool fullCourt) {
     return ChoiceChip(
       label: Text(label),
-      selected: isFullCourt == isFull,
+      selected: isFullCourt == fullCourt,
       onSelected: (selected) {
         setState(() {
-          isFullCourt = isFull;
+          isFullCourt = fullCourt;
         });
       },
-      selectedColor:whatsAppGreen,
     );
   }
 }

@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:turfpro/indicator.dart';
 import 'package:turfpro/header.dart';
 import 'package:turfpro/colors.dart'; 
+import 'package:firebase_auth/firebase_auth.dart';
 
 class SignupScreen extends StatefulWidget {
   const SignupScreen({super.key});
@@ -47,8 +48,13 @@ class SignupScreenState extends State<SignupScreen> {
     }
 
     try {
+      UserCredential userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        email: _emailController.text.trim(),
+        password: _passwordController.text.trim(),
+      );
+
       final response = await http.post(
-        Uri.parse('http://localhost:3000/api/user/register'), 
+        Uri.parse('http://localhost:3000/api/user/register'),
         headers: {'Content-Type': 'application/json'},
         body: json.encode({
           'username': _usernameController.text.trim(),
@@ -66,6 +72,23 @@ class SignupScreenState extends State<SignupScreen> {
           _isLoading = false;
         });
       }
+    } on FirebaseAuthException catch (e) {
+      setState(() {
+        _isLoading = false;
+      });
+      String message;
+      if (e.code == 'weak-password') {
+        message = 'The password provided is too weak.';
+      } else if (e.code == 'email-already-in-use') {
+        message = 'The account already exists for that email.';
+      } else if (e.code == 'invalid-email') {
+        message = 'The email address is not valid.';
+      } else {
+        message = 'Something went wrong. Please try again.';
+      }
+      setState(() {
+        _errorMessage = message;
+      });
     } catch (e) {
       setState(() {
         _errorMessage = 'Unexpected error occurred: $e';

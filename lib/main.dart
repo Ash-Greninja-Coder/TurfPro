@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:turfpro/screen/admin_panel/admin_panel_section.dart';
 import 'package:turfpro/screen/game/game.dart';
 import 'package:turfpro/screen/more/more.dart';
@@ -11,7 +12,16 @@ import 'package:turfpro/screen/sportspreference.dart';
 import 'package:turfpro/screen/home/homescreen.dart';
 import 'package:turfpro/screen/more/settings.dart';
 
-void main() {
+import 'firebase_options.dart';
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  // Initialize Firebase with options
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform, // Use your Firebase options
+  ); 
+
   runApp(const MyApp());
 }
 

@@ -5,14 +5,25 @@ const router = express.Router();
 
 // Book a slot
 router.post('/', async (req, res) => {
-    const { userId, slotId } = req.body;
+    const { userId, slotId, selectedSport, selectedDate, selectedTimeSlot, isFullCourt, subTotal, discount, payableAmount, advancePayment } = req.body;
     try {
         const slot = await Slot.findById(slotId);
         if (!slot || !slot.available) {
             return res.status(400).json({ message: 'Slot not available' });
         }
 
-        const newBooking = new Booking({ userId, slotId });
+        const newBooking = new Booking({
+            userId,
+            slotId,
+            selectedSport,
+            selectedDate,
+            selectedTimeSlot,
+            isFullCourt,
+            subTotal,
+            discount,
+            payableAmount,
+            advancePayment
+        });
         await newBooking.save();
         slot.available = false;
         await slot.save();
